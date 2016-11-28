@@ -15,7 +15,7 @@ namespace WindowsFormsApplication
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUI_NhaCungCap());
+            Application.Run(new GUI_SanPham());
         }
     }
 }

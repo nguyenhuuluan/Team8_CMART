@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.quảnLýHóaĐơnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quảnLýDanhMụcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,7 +46,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtSearch = new System.Windows.Forms.TextBox();
-            this.lstSanPham = new System.Windows.Forms.DataGridView();
             this.label5 = new System.Windows.Forms.Label();
             this.txtTenSP = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -66,8 +67,9 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.lstSP = new System.Windows.Forms.DataGridView();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.lstSanPham)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lstSP)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -213,14 +215,6 @@
             this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
-            // lstSanPham
-            // 
-            this.lstSanPham.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.lstSanPham.Location = new System.Drawing.Point(520, 164);
-            this.lstSanPham.Name = "lstSanPham";
-            this.lstSanPham.Size = new System.Drawing.Size(660, 360);
-            this.lstSanPham.TabIndex = 4;
-            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -234,6 +228,7 @@
             // 
             // txtTenSP
             // 
+            this.txtTenSP.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenSP.Location = new System.Drawing.Point(189, 190);
             this.txtTenSP.Multiline = true;
             this.txtTenSP.Name = "txtTenSP";
@@ -329,6 +324,7 @@
             // 
             // txtHinhAnh
             // 
+            this.txtHinhAnh.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHinhAnh.Location = new System.Drawing.Point(189, 422);
             this.txtHinhAnh.Multiline = true;
             this.txtHinhAnh.Name = "txtHinhAnh";
@@ -426,11 +422,41 @@
             this.btnAdd.TabIndex = 1;
             this.btnAdd.UseVisualStyleBackColor = true;
             // 
+            // lstSP
+            // 
+            this.lstSP.AllowUserToAddRows = false;
+            this.lstSP.AllowUserToDeleteRows = false;
+            this.lstSP.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.lstSP.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.lstSP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.lstSP.DefaultCellStyle = dataGridViewCellStyle2;
+            this.lstSP.Location = new System.Drawing.Point(520, 163);
+            this.lstSP.Name = "lstSP";
+            this.lstSP.ReadOnly = true;
+            this.lstSP.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.lstSP.Size = new System.Drawing.Size(660, 360);
+            this.lstSP.TabIndex = 26;
+            // 
             // GUI_SanPham
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 561);
+            this.Controls.Add(this.lstSP);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
@@ -443,7 +469,6 @@
             this.Controls.Add(this.cboLSP);
             this.Controls.Add(this.txtHinhAnh);
             this.Controls.Add(this.txtTenSP);
-            this.Controls.Add(this.lstSanPham);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -462,9 +487,10 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "GUI_SanPham";
             this.Text = "GUI_SanPham";
+            this.Load += new System.EventHandler(this.GUI_SanPham_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.lstSanPham)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lstSP)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -485,7 +511,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.DataGridView lstSanPham;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.TextBox txtTenSP;
@@ -510,5 +535,6 @@
         private System.Windows.Forms.Button btnLogout;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.DataGridView lstSP;
     }
 }
