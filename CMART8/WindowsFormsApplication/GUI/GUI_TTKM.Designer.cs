@@ -20,6 +20,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -28,8 +30,6 @@
             this.button11 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.txtHinhAnh = new System.Windows.Forms.TextBox();
-            this.txtTenSP = new System.Windows.Forms.TextBox();
-            this.lstTTKM = new System.Windows.Forms.DataGridView();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -53,7 +53,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.label10 = new System.Windows.Forms.Label();
             this.txtGiaKM = new System.Windows.Forms.TextBox();
-            this.txtNgayBD = new System.Windows.Forms.DateTimePicker();
             this.label11 = new System.Windows.Forms.Label();
             this.txtNgayKT = new System.Windows.Forms.DateTimePicker();
             this.label12 = new System.Windows.Forms.Label();
@@ -63,8 +62,11 @@
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.lstTTKM)).BeginInit();
+            this.lstTTKM = new System.Windows.Forms.DataGridView();
+            this.cboSP = new System.Windows.Forms.ComboBox();
+            this.txtNgayBD = new System.Windows.Forms.DateTimePicker();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lstTTKM)).BeginInit();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -134,27 +136,12 @@
             // 
             // txtHinhAnh
             // 
+            this.txtHinhAnh.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtHinhAnh.Location = new System.Drawing.Point(194, 357);
             this.txtHinhAnh.Multiline = true;
             this.txtHinhAnh.Name = "txtHinhAnh";
             this.txtHinhAnh.Size = new System.Drawing.Size(311, 32);
             this.txtHinhAnh.TabIndex = 27;
-            // 
-            // txtTenSP
-            // 
-            this.txtTenSP.Location = new System.Drawing.Point(194, 164);
-            this.txtTenSP.Multiline = true;
-            this.txtTenSP.Name = "txtTenSP";
-            this.txtTenSP.Size = new System.Drawing.Size(310, 32);
-            this.txtTenSP.TabIndex = 26;
-            // 
-            // lstTTKM
-            // 
-            this.lstTTKM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.lstTTKM.Location = new System.Drawing.Point(520, 164);
-            this.lstTTKM.Name = "lstTTKM";
-            this.lstTTKM.Size = new System.Drawing.Size(660, 360);
-            this.lstTTKM.TabIndex = 25;
             // 
             // txtSearch
             // 
@@ -167,6 +154,7 @@
             this.txtSearch.TabIndex = 24;
             this.txtSearch.Tag = "Searching";
             this.txtSearch.Text = "Searching";
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
@@ -367,19 +355,12 @@
             // 
             // txtGiaKM
             // 
+            this.txtGiaKM.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGiaKM.Location = new System.Drawing.Point(194, 211);
             this.txtGiaKM.Multiline = true;
             this.txtGiaKM.Name = "txtGiaKM";
             this.txtGiaKM.Size = new System.Drawing.Size(310, 32);
             this.txtGiaKM.TabIndex = 26;
-            // 
-            // txtNgayBD
-            // 
-            this.txtNgayBD.Font = new System.Drawing.Font("Arial Narrow", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNgayBD.Location = new System.Drawing.Point(194, 259);
-            this.txtNgayBD.Name = "txtNgayBD";
-            this.txtNgayBD.Size = new System.Drawing.Size(310, 32);
-            this.txtNgayBD.TabIndex = 64;
             // 
             // label11
             // 
@@ -394,7 +375,9 @@
             // 
             // txtNgayKT
             // 
+            this.txtNgayKT.CustomFormat = "MM/dd/yyyy HH:mm:ss";
             this.txtNgayKT.Font = new System.Drawing.Font("Arial Narrow", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNgayKT.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.txtNgayKT.Location = new System.Drawing.Point(194, 307);
             this.txtNgayKT.Name = "txtNgayKT";
             this.txtNgayKT.Size = new System.Drawing.Size(310, 32);
@@ -413,6 +396,7 @@
             // 
             // txtNoiDung
             // 
+            this.txtNoiDung.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNoiDung.Location = new System.Drawing.Point(194, 410);
             this.txtNoiDung.Name = "txtNoiDung";
             this.txtNoiDung.Size = new System.Drawing.Size(310, 96);
@@ -469,14 +453,65 @@
             this.btnAdd.TabIndex = 14;
             this.btnAdd.UseVisualStyleBackColor = true;
             // 
+            // lstTTKM
+            // 
+            this.lstTTKM.AllowUserToAddRows = false;
+            this.lstTTKM.AllowUserToDeleteRows = false;
+            this.lstTTKM.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.lstTTKM.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.lstTTKM.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.lstTTKM.DefaultCellStyle = dataGridViewCellStyle2;
+            this.lstTTKM.Location = new System.Drawing.Point(520, 164);
+            this.lstTTKM.Name = "lstTTKM";
+            this.lstTTKM.ReadOnly = true;
+            this.lstTTKM.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.lstTTKM.Size = new System.Drawing.Size(660, 360);
+            this.lstTTKM.TabIndex = 66;
+            // 
+            // cboSP
+            // 
+            this.cboSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboSP.FormattingEnabled = true;
+            this.cboSP.Location = new System.Drawing.Point(194, 164);
+            this.cboSP.Name = "cboSP";
+            this.cboSP.Size = new System.Drawing.Size(310, 32);
+            this.cboSP.TabIndex = 67;
+            this.cboSP.SelectedValueChanged += new System.EventHandler(this.cboSP_SelectedValueChanged);
+            // 
+            // txtNgayBD
+            // 
+            this.txtNgayBD.CustomFormat = "MM/dd/yyyy HH:mm:ss";
+            this.txtNgayBD.Font = new System.Drawing.Font("Arial Narrow", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNgayBD.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.txtNgayBD.Location = new System.Drawing.Point(194, 259);
+            this.txtNgayBD.Name = "txtNgayBD";
+            this.txtNgayBD.Size = new System.Drawing.Size(310, 32);
+            this.txtNgayBD.TabIndex = 68;
+            // 
             // GUI_TTKM
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1184, 561);
+            this.Controls.Add(this.txtNgayBD);
+            this.Controls.Add(this.cboSP);
+            this.Controls.Add(this.lstTTKM);
             this.Controls.Add(this.txtNoiDung);
             this.Controls.Add(this.txtNgayKT);
-            this.Controls.Add(this.txtNgayBD);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
@@ -487,8 +522,6 @@
             this.Controls.Add(this.button5);
             this.Controls.Add(this.txtHinhAnh);
             this.Controls.Add(this.txtGiaKM);
-            this.Controls.Add(this.txtTenSP);
-            this.Controls.Add(this.lstTTKM);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label4);
@@ -509,9 +542,10 @@
             this.Controls.Add(this.menuStrip1);
             this.Name = "GUI_TTKM";
             this.Text = "GUI_TTKM";
-            ((System.ComponentModel.ISupportInitialize)(this.lstTTKM)).EndInit();
+            this.Load += new System.EventHandler(this.GUI_TTKM_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lstTTKM)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -528,8 +562,6 @@
         private System.Windows.Forms.Button button11;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TextBox txtHinhAnh;
-        private System.Windows.Forms.TextBox txtTenSP;
-        private System.Windows.Forms.DataGridView lstTTKM;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
@@ -557,10 +589,12 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtGiaKM;
-        private System.Windows.Forms.DateTimePicker txtNgayBD;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DateTimePicker txtNgayKT;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.RichTextBox txtNoiDung;
+        private System.Windows.Forms.DataGridView lstTTKM;
+        private System.Windows.Forms.ComboBox cboSP;
+        private System.Windows.Forms.DateTimePicker txtNgayBD;
     }
 }

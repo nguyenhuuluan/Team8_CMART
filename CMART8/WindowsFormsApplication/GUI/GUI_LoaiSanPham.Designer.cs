@@ -28,6 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label9 = new System.Windows.Forms.Label();
             this.btnLogout = new System.Windows.Forms.Button();
             this.btnSearch = new System.Windows.Forms.Button();
@@ -57,11 +60,12 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.quảnLýHóaĐơnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.quảnLýDanhMụcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quảnLýSảnPhẩmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quảnLýLoạiSảnPhẩmToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quảnLýNhàToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.thôngTinKhuyếnMãiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.formSanPham = new System.Windows.Forms.ToolStripMenuItem();
+            this.formLoaiSanPham = new System.Windows.Forms.ToolStripMenuItem();
+            this.formNCC = new System.Windows.Forms.ToolStripMenuItem();
+            this.formTTKM = new System.Windows.Forms.ToolStripMenuItem();
             this.txtTenLSP = new System.Windows.Forms.TextBox();
+            this.formLSG = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.lstLSP)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -131,9 +135,36 @@
             // 
             // lstLSP
             // 
+            this.lstLSP.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.lstLSP.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.lstLSP.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.lstLSP.DefaultCellStyle = dataGridViewCellStyle5;
             this.lstLSP.Location = new System.Drawing.Point(520, 182);
             this.lstLSP.Name = "lstLSP";
+            this.lstLSP.ReadOnly = true;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.lstLSP.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            this.lstLSP.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.lstLSP.Size = new System.Drawing.Size(660, 360);
             this.lstLSP.TabIndex = 51;
             // 
@@ -148,6 +179,7 @@
             this.txtSearch.TabIndex = 50;
             this.txtSearch.Tag = "Searching";
             this.txtSearch.Text = "Searching";
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             this.txtSearch.Enter += new System.EventHandler(this.txtSearch_Enter);
             this.txtSearch.Leave += new System.EventHandler(this.txtSearch_Leave);
             // 
@@ -300,6 +332,7 @@
             // 
             // txtSoLuong
             // 
+            this.txtSoLuong.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtSoLuong.Location = new System.Drawing.Point(206, 352);
             this.txtSoLuong.Multiline = true;
             this.txtSoLuong.Name = "txtSoLuong";
@@ -341,45 +374,57 @@
             // 
             this.quảnLýDanhMụcToolStripMenuItem.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.quảnLýDanhMụcToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.quảnLýSảnPhẩmToolStripMenuItem,
-            this.quảnLýLoạiSảnPhẩmToolStripMenuItem,
-            this.quảnLýNhàToolStripMenuItem,
-            this.thôngTinKhuyếnMãiToolStripMenuItem});
+            this.formSanPham,
+            this.formLoaiSanPham,
+            this.formNCC,
+            this.formTTKM,
+            this.formLSG});
             this.quảnLýDanhMụcToolStripMenuItem.Name = "quảnLýDanhMụcToolStripMenuItem";
             this.quảnLýDanhMụcToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.quảnLýDanhMụcToolStripMenuItem.Text = "Quản lý danh mục";
             // 
-            // quảnLýSảnPhẩmToolStripMenuItem
+            // formSanPham
             // 
-            this.quảnLýSảnPhẩmToolStripMenuItem.Name = "quảnLýSảnPhẩmToolStripMenuItem";
-            this.quảnLýSảnPhẩmToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.quảnLýSảnPhẩmToolStripMenuItem.Text = "Sản phẩm";
+            this.formSanPham.Name = "formSanPham";
+            this.formSanPham.Size = new System.Drawing.Size(218, 22);
+            this.formSanPham.Text = "Sản phẩm";
+            this.formSanPham.Click += new System.EventHandler(this.formSanPham_Click);
             // 
-            // quảnLýLoạiSảnPhẩmToolStripMenuItem
+            // formLoaiSanPham
             // 
-            this.quảnLýLoạiSảnPhẩmToolStripMenuItem.Name = "quảnLýLoạiSảnPhẩmToolStripMenuItem";
-            this.quảnLýLoạiSảnPhẩmToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.quảnLýLoạiSảnPhẩmToolStripMenuItem.Text = "Loại sản phẩm";
+            this.formLoaiSanPham.Name = "formLoaiSanPham";
+            this.formLoaiSanPham.Size = new System.Drawing.Size(218, 22);
+            this.formLoaiSanPham.Text = "Loại sản phẩm";
             // 
-            // quảnLýNhàToolStripMenuItem
+            // formNCC
             // 
-            this.quảnLýNhàToolStripMenuItem.Name = "quảnLýNhàToolStripMenuItem";
-            this.quảnLýNhàToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.quảnLýNhàToolStripMenuItem.Text = "Nhà cung cấp";
+            this.formNCC.Name = "formNCC";
+            this.formNCC.Size = new System.Drawing.Size(218, 22);
+            this.formNCC.Text = "Nhà cung cấp";
+            this.formNCC.Click += new System.EventHandler(this.formNCC_Click);
             // 
-            // thôngTinKhuyếnMãiToolStripMenuItem
+            // formTTKM
             // 
-            this.thôngTinKhuyếnMãiToolStripMenuItem.Name = "thôngTinKhuyếnMãiToolStripMenuItem";
-            this.thôngTinKhuyếnMãiToolStripMenuItem.Size = new System.Drawing.Size(218, 22);
-            this.thôngTinKhuyếnMãiToolStripMenuItem.Text = "Thông tin khuyến mãi";
+            this.formTTKM.Name = "formTTKM";
+            this.formTTKM.Size = new System.Drawing.Size(218, 22);
+            this.formTTKM.Text = "Thông tin khuyến mãi";
+            this.formTTKM.Click += new System.EventHandler(this.formTTKM_Click);
             // 
             // txtTenLSP
             // 
+            this.txtTenLSP.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtTenLSP.Location = new System.Drawing.Point(206, 261);
             this.txtTenLSP.Multiline = true;
             this.txtTenLSP.Name = "txtTenLSP";
             this.txtTenLSP.Size = new System.Drawing.Size(264, 32);
             this.txtTenLSP.TabIndex = 53;
+            // 
+            // formLSG
+            // 
+            this.formLSG.Name = "formLSG";
+            this.formLSG.Size = new System.Drawing.Size(218, 22);
+            this.formLSG.Text = "Lịch sử giá";
+            this.formLSG.Click += new System.EventHandler(this.formLSG_Click);
             // 
             // GUI_LoaiSanPham
             // 
@@ -412,6 +457,7 @@
             this.Controls.Add(this.txtTenLSP);
             this.Name = "GUI_LoaiSanPham";
             this.Text = "GUI_LoaiSanPham";
+            this.Load += new System.EventHandler(this.GUI_LoaiSanPham_Load);
             ((System.ComponentModel.ISupportInitialize)(this.lstLSP)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -451,10 +497,11 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem quảnLýHóaĐơnToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quảnLýDanhMụcToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quảnLýSảnPhẩmToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quảnLýLoạiSảnPhẩmToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem quảnLýNhàToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem thôngTinKhuyếnMãiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem formSanPham;
+        private System.Windows.Forms.ToolStripMenuItem formLoaiSanPham;
+        private System.Windows.Forms.ToolStripMenuItem formNCC;
+        private System.Windows.Forms.ToolStripMenuItem formTTKM;
         private System.Windows.Forms.TextBox txtTenLSP;
+        private System.Windows.Forms.ToolStripMenuItem formLSG;
     }
 }

@@ -17,9 +17,13 @@ namespace WindowsFormsApplication
             public List<LOAISANPHAM> searchListLSP(string sTmp)
             {
                 db = new CMART8Entities();
-                return db.LOAISANPHAMs.Where(st => st.TENLOAI.Contains(sTmp) || st.SOLUONGSP.Equals(int.Parse(sTmp))).ToList();
+                //int tmp = int.Parse(sTmp.Trim());
+                //st.MALOAI.Contains(sTmp) ||st.TENLOAI.Contains(sTmp) || st.SOLUONGSP.Equals(int.Parse(sTmp))
+                //return db.LOAISANPHAMs.Where(st => st.MALOAI.Contains(sTmp) || st.TENLOAI.Contains(sTmp)|| st.SOLUONGSP.ToString().Contains(sTmp)).ToList();
+                return db.LOAISANPHAMs.Where(st => st.MALOAI.Contains(sTmp) || st.TENLOAI.Contains(sTmp)).ToList();
+                
             }
-            public bool addLSP(string ten, int soluong)
+            public bool addLSP(string ten)
             {
                 db = new CMART8Entities();
                 LOAISANPHAM LSP = new LOAISANPHAM();
@@ -27,7 +31,7 @@ namespace WindowsFormsApplication
                 {
                     LSP.MALOAI = DateTime.Now.ToString();
                     LSP.TENLOAI = ten;
-                    LSP.SOLUONGSP = soluong;
+                    LSP.SOLUONGSP = 0;
                     db.LOAISANPHAMs.AddObject(LSP);
                     db.SaveChanges();
                     return true;
@@ -37,14 +41,13 @@ namespace WindowsFormsApplication
                     return false;
                 }
             }
-            public bool editLSP(string id, string ten, int soluong)
+            public bool editLSP(string id, string ten)
             {
                 db = new CMART8Entities();
                 LOAISANPHAM LSP = db.LOAISANPHAMs.Single(st => st.MALOAI.Equals(id));
                 try
                 {
                     LSP.TENLOAI = ten;
-                    LSP.SOLUONGSP = soluong;
                     db.SaveChanges();
 
                     return true;

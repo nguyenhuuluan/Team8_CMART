@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication.GUI
+namespace WindowsFormsApplication
 {
     public partial class GUI_LichSuGia : Form
     {

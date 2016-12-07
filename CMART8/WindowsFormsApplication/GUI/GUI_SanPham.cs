@@ -173,7 +173,7 @@ namespace WindowsFormsApplication
         {
             if (txtSearch.Text == txtSearch.Tag.ToString())
             {
-                txtSearch.Text = "";
+                txtSearch.Text = null;
                 txtSearch.ForeColor = Color.Black;
             }
         }
