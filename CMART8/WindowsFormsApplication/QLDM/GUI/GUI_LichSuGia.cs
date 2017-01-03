@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     public partial class GUI_LichSuGia : Form
     {
@@ -16,13 +16,16 @@ namespace WindowsFormsApplication
         CMART8Entities db;
         ValidationExtension vl;
         int flag = 0;
-        public GUI_LichSuGia()
+        TAIKHOAN TK;
+        public GUI_LichSuGia(TAIKHOAN tmp)
         {
+            TK = tmp;
             ctl = new BUS_LichSuGia();
             ctlSP = new BUS_SanPham();
             db =  new CMART8Entities();
             vl = new ValidationExtension();
             InitializeComponent();
+            controlFunction(TK.QUYEN);
             btnAdd.Click += btnAdd_Click;
             btnEdit.Click += btnEdit_Click;
             lstLSG.Click += lstLSG_Click;
@@ -69,6 +72,11 @@ namespace WindowsFormsApplication
                     flg = false;
                     sTmp = sTmp +"Vui lòng nhập giá cho sản phẩm!\n";
                 }
+                if (!vl.MinValue(txtGia, 0))
+                {
+                    flg = false;
+                    sTmp = sTmp + "Giá sản phẩm phải lơn 0!\n";
+                }
                 if (flg)
                 {
                     try
@@ -106,6 +114,11 @@ namespace WindowsFormsApplication
                     flg = false;
                     sTmp = sTmp + "Vui lòng nhập giá cho sản phẩm!\n";
                 }
+                if (!vl.MinValue(txtGia, 0))
+                {
+                    flg = false;
+                    sTmp = sTmp + "Giá sản phẩm phải lơn 0!\n";
+                }
 
                 if (flg)
                 {
@@ -121,6 +134,8 @@ namespace WindowsFormsApplication
                         if (ctl.editLSG(id, gia, ngayhl, id2, gia2, ngayhl2))
                         {
                             MessageBox.Show("Cập nhật lịch sử giá thành công!");
+                            controlFunction("enableAll");
+                            GUI_LichSuGia_Load(null, null);
                         }
                         else
                         {
@@ -220,8 +235,17 @@ namespace WindowsFormsApplication
                 txtNgayHieuLuc.Enabled = true;
                 txtGia.Enabled = true;
                 cboTenSP.Enabled = true;
-                lstLSG.Enabled = false;
 
+                if(sTmp.Equals("enableEdit"))
+                {
+                    lstLSG.Enabled = false;
+                }
+            }
+            if (sTmp.Equals("Giám đốc"))
+            {
+                lblQuyen.Text = TK.QUYEN;
+                formQLHD.Visible = false;
+                formQLNH.Visible = false;
             }
         }
         private void GUI_LichSuGia_Load(object sender, EventArgs e)
@@ -233,11 +257,93 @@ namespace WindowsFormsApplication
             cboTenSP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cboTenSP.AutoCompleteSource = AutoCompleteSource.ListItems;
             controlFunction("enableAll");
+            lstLSG.Columns[3].Visible = false;
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             btnSearch_Click(null, null);
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            GUI_Login lg = new GUI_Login();
+            this.Hide();
+            lg.ShowDialog();
+            this.Close();
+        }
+
+
+        private void quảnLýSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_SanPham sp = new GUI_SanPham(TK);
+            this.Hide();
+            sp.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýLoạiSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_LoaiSanPham lsp = new GUI_LoaiSanPham(TK);
+            this.Hide();
+            lsp.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýNhàToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_NhaCungCap ncc = new GUI_NhaCungCap(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void thôngTinKhuyếnMãiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_TTKM ttkm = new GUI_TTKM(TK);
+            this.Hide();
+            ttkm.ShowDialog();
+            this.Close();
+        }
+
+        private void formThongke_Click(object sender, EventArgs e)
+        {
+            GUI_Thongke tk = new GUI_Thongke(TK);
+            this.Hide();
+            tk.ShowDialog();
+            this.Close();
+        }
+
+        private void formDoiMK_Click(object sender, EventArgs e)
+        {
+            QLTK.GUI.GUI_DoiMK ncc = new QLTK.GUI.GUI_DoiMK(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void formQLTK_Click(object sender, EventArgs e)
+        {
+            GUI_QLTK qltk = new GUI_QLTK(TK);
+            this.Hide();
+            qltk.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýSảnPhẩmToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            GUI_SanPham sp = new GUI_SanPham(TK);
+            this.Hide();
+            sp.ShowDialog();
+            this.Close();
+        }
+
+        private void btnLogout_Click_1(object sender, EventArgs e)
+        {
+            GUI_Login lg = new GUI_Login();
+            this.Hide();
+            lg.ShowDialog();
+            this.Close();
         }
 
     }

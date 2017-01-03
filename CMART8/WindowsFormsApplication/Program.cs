@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     static class Program
     {
@@ -15,7 +15,7 @@ namespace WindowsFormsApplication
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUI_QLTK());
+            Application.Run(new GUI_Login());
         }
     }
 }

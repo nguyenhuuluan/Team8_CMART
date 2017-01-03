@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     class BUS_NhaCungCap
     {   CMART8Entities db;
@@ -27,7 +27,7 @@ namespace WindowsFormsApplication
             ncc.TENNCC = ten;
             ncc.DIACHI = diachi;
             ncc.SDT = sdt;
-            db.NHACUNGCAPs.AddObject(ncc);
+            db.NHACUNGCAPs.Add(ncc);
             db.SaveChanges();
             return true;
         }
@@ -55,12 +55,19 @@ namespace WindowsFormsApplication
         }
     }
     public bool deleteNCC(String id)
-    {   
-        db = new CMART8Entities();
-        NHACUNGCAP ncc = db.NHACUNGCAPs.Single(st => st.MANCC.Contains(id));
-        db.NHACUNGCAPs.DeleteObject(ncc);
-        db.SaveChanges();
-        return true;
+    {
+        try
+        {
+            db = new CMART8Entities();
+            NHACUNGCAP ncc = db.NHACUNGCAPs.Single(st => st.MANCC.Contains(id));
+            db.NHACUNGCAPs.Remove(ncc);
+            db.SaveChanges();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
     public bool checkExist(string sTmp)
     { 

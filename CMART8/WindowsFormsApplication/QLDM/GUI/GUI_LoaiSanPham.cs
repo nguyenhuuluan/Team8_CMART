@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication
+namespace CMART8
 
 {
     public partial class GUI_LoaiSanPham : Form
@@ -15,11 +15,14 @@ namespace WindowsFormsApplication
         BUS_LoaiSanPham ctl;
         ValidationExtension vl;
         int flag = 0;
-        public GUI_LoaiSanPham()
+        TAIKHOAN TK;
+        public GUI_LoaiSanPham(TAIKHOAN tmp)
         {
+            TK = tmp;
             ctl = new BUS_LoaiSanPham();
             vl = new ValidationExtension();
             InitializeComponent();
+            controlFunction(TK.QUYEN);
             controlFunction("enableAll");
             btnAdd.Click += btnAdd_Click;
             btnEdit.Click += btnEdit_Click;
@@ -45,6 +48,10 @@ namespace WindowsFormsApplication
                             MessageBox.Show("Xóa Loại sản phẩm thành công!");
                             controlFunction("enableAll");
                             GUI_LoaiSanPham_Load(null, null);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Hiện tại có Sản phẩm thuộc loại sản phẩm này trong hệ thống!");
                         }
                     }
                     else
@@ -196,6 +203,7 @@ namespace WindowsFormsApplication
                 GUI_LoaiSanPham_Load(null, null);
             }
         }
+
         private void controlFunction(string sTmp)
         {
             if (sTmp.Equals("enableAll"))
@@ -222,6 +230,12 @@ namespace WindowsFormsApplication
                 btnCancel.Enabled = true;
                 txtTenLSP.Enabled = true;
             }
+            if (sTmp.Equals("Giám đốc"))
+            {
+                lblQuyen.Text = TK.QUYEN;
+                formQLHD.Visible = false;
+                formQLNH.Visible = false;
+            }
         }
 
         private void GUI_LoaiSanPham_Load(object sender, EventArgs e)
@@ -235,36 +249,69 @@ namespace WindowsFormsApplication
             btnSearch_Click(null, null);
         }
 
-        private void formSanPham_Click(object sender, EventArgs e)
+
+        private void quảnLýSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GUI_SanPham sp = new GUI_SanPham();
+            GUI_SanPham sp = new GUI_SanPham(TK);
             this.Hide();
             sp.ShowDialog();
-            this.Show();
+            this.Close();
         }
 
-        private void formNCC_Click(object sender, EventArgs e)
+        private void quảnLýNhàToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GUI_NhaCungCap ncc = new GUI_NhaCungCap();
+            GUI_NhaCungCap ncc = new GUI_NhaCungCap(TK);
             this.Hide();
             ncc.ShowDialog();
-            this.Show();
+            this.Close();
         }
 
-        private void formTTKM_Click(object sender, EventArgs e)
+        private void thôngTinKhuyếnMãiToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GUI_TTKM ttkm = new GUI_TTKM();
+            GUI_TTKM ttkm = new GUI_TTKM(TK);
             this.Hide();
             ttkm.ShowDialog();
-            this.Show();
+            this.Close();
+        }
+
+        private void formThongke_Click(object sender, EventArgs e)
+        {
+            GUI_Thongke tk = new GUI_Thongke(TK);
+            this.Hide();
+            tk.ShowDialog();
+            this.Close();
+        }
+
+        private void formDoiMK_Click(object sender, EventArgs e)
+        {
+            QLTK.GUI.GUI_DoiMK ncc = new QLTK.GUI.GUI_DoiMK(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void formQLTK_Click(object sender, EventArgs e)
+        {
+            GUI_QLTK qltk = new GUI_QLTK(TK);
+            this.Hide();
+            qltk.ShowDialog();
+            this.Close();
         }
 
         private void formLSG_Click(object sender, EventArgs e)
         {
-            GUI_LichSuGia lsg = new GUI_LichSuGia();
+            GUI_LichSuGia lsg = new GUI_LichSuGia(TK);
             this.Hide();
             lsg.ShowDialog();
-            this.Show();
+            this.Close();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            GUI_Login lg = new GUI_Login();
+            this.Hide();
+            lg.ShowDialog();
+            this.Close();
         }
     }
 }

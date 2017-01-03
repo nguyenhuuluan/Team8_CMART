@@ -61,6 +61,10 @@
             <End Role="SANPHAM" EntitySet="SANPHAM" />
             <End Role="KHUYENMAI" EntitySet="KHUYENMAI" />
           </AssociationSet>
+          <AssociationSet Name="FK_LICHSUGIA_SANPHAM" Association="CMART8Model.Store.FK_LICHSUGIA_SANPHAM">
+            <End Role="SANPHAM" EntitySet="SANPHAM" />
+            <End Role="LICHSUGIA" EntitySet="LICHSUGIA" />
+          </AssociationSet>
           <AssociationSet Name="FK_PHIEUDEXUAT_NHACUNGCAP" Association="CMART8Model.Store.FK_PHIEUDEXUAT_NHACUNGCAP">
             <End Role="NHACUNGCAP" EntitySet="NHACUNGCAP" />
             <End Role="PHIEUDEXUAT" EntitySet="PHIEUDEXUAT" />
@@ -137,9 +141,9 @@
           </Key>
           <Property Name="SOHD" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="NGAYBAN" Type="datetime" />
-          <Property Name="TONGTIEN" Type="float" />
-          <Property Name="TIENKHACHDUA" Type="float" />
-          <Property Name="TIENKHATRA" Type="float" />
+          <Property Name="TONGTIEN" Type="varchar" MaxLength="50" />
+          <Property Name="TIENKHACHDUA" Type="varchar" MaxLength="50" />
+          <Property Name="TIENKHATRA" Type="varchar" MaxLength="50" />
           <Property Name="TONGSL" Type="int" />
           <Property Name="POS" Type="nvarchar" MaxLength="50" />
           <Property Name="MATK" Type="nvarchar" MaxLength="50" />
@@ -365,6 +369,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LICHSUGIA_SANPHAM">
+          <End Role="SANPHAM" Type="CMART8Model.Store.SANPHAM" Multiplicity="1" />
+          <End Role="LICHSUGIA" Type="CMART8Model.Store.LICHSUGIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SANPHAM">
+              <PropertyRef Name="MASP" />
+            </Principal>
+            <Dependent Role="LICHSUGIA">
+              <PropertyRef Name="MASP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_PHIEUDEXUAT_NHACUNGCAP">
           <End Role="NHACUNGCAP" Type="CMART8Model.Store.NHACUNGCAP" Multiplicity="0..1" />
           <End Role="PHIEUDEXUAT" Type="CMART8Model.Store.PHIEUDEXUAT" Multiplicity="*" />
@@ -449,12 +465,108 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" ReturnType="int" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="SP_CHITIETHOADON" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOHD" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CHITIETPHIEUDEXUAT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOPHIEU" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CHITIETPHIEUNHAPCHINHANH" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOPHIEU" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_CHITIETPHIEUNHAPTRUSO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOPHIEU" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_HOADON_AUTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOHOADON" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="SP_HOADON_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="TONGTIEN" Type="float" Mode="In" />
+          <Parameter Name="TIENKHACHDUA" Type="float" Mode="In" />
+          <Parameter Name="TIENKHATRA" Type="float" Mode="In" />
+          <Parameter Name="TONGSL" Type="int" Mode="In" />
+          <Parameter Name="POS" Type="nvarchar" Mode="In" />
+          <Parameter Name="MATK" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PHIEUNHAPHANGCHINHANH_AUTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOPHIEU" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="SP_PHIEUNHAPHANGCHINHANH_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOPHIEUNHTS" Type="nvarchar" Mode="In" />
+          <Parameter Name="TONGTIEN" Type="float" Mode="In" />
+          <Parameter Name="CHINHANH" Type="nvarchar" Mode="In" />
+          <Parameter Name="MATK" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_PHIEUNHAPHANGTRUSO_AUTO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOPHIEU" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <Function Name="SP_PHIEUNHAPHANGTRUSO_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SOPHIEUDEXUAT" Type="nvarchar" Mode="In" />
+          <Parameter Name="TONGTIEN" Type="float" Mode="In" />
+          <Parameter Name="MATK" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_THONGKEDOANHTHU" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="THANG" Type="int" Mode="In" />
+          <Parameter Name="NAM" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_THONGKEDOANHTHU_NAM" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NAM" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_THONGKEDOANHTHU_NGAY" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NGAY" Type="int" Mode="In" />
+          <Parameter Name="THANG" Type="int" Mode="In" />
+          <Parameter Name="NAM" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_THONGKEDOANHTHU_TG" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NGAYBD" Type="datetime" Mode="In" />
+          <Parameter Name="NGAYKT" Type="datetime" Mode="In" />
+        </Function>
+        <Function Name="SP_THONGKEDOANHTHU_THANG" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="THANG" Type="int" Mode="In" />
+          <Parameter Name="NAM" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <!--Errors Found During Generation:
+      warning 6013: The table/view 'CMART8.dbo.ds' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+      
+      <EntityType Name="ds">
+        <Property Name="dsa" Type="nchar" MaxLength="10" />
+      </EntityType>-->
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CMART8Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="CMART8Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="sysdiagrams" EntityType="CMART8Model.sysdiagram" />
           <EntitySet Name="CTHOADONs" EntityType="CMART8Model.CTHOADON" />
           <EntitySet Name="CTPHIEUDEXUATs" EntityType="CMART8Model.CTPHIEUDEXUAT" />
           <EntitySet Name="CTPHIEUNHAPHANGCHINHANHs" EntityType="CMART8Model.CTPHIEUNHAPHANGCHINHANH" />
@@ -463,10 +575,12 @@
           <EntitySet Name="KHUYENMAIs" EntityType="CMART8Model.KHUYENMAI" />
           <EntitySet Name="LICHSUGIAs" EntityType="CMART8Model.LICHSUGIA" />
           <EntitySet Name="LOAISANPHAMs" EntityType="CMART8Model.LOAISANPHAM" />
+          <EntitySet Name="NHACUNGCAPs" EntityType="CMART8Model.NHACUNGCAP" />
           <EntitySet Name="PHIEUDEXUATs" EntityType="CMART8Model.PHIEUDEXUAT" />
           <EntitySet Name="PHIEUNHAPHANGCHINHANHs" EntityType="CMART8Model.PHIEUNHAPHANGCHINHANH" />
           <EntitySet Name="PHIEUNHAPHANGTRUSOes" EntityType="CMART8Model.PHIEUNHAPHANGTRUSO" />
           <EntitySet Name="SANPHAMs" EntityType="CMART8Model.SANPHAM" />
+          <EntitySet Name="sysdiagrams" EntityType="CMART8Model.sysdiagram" />
           <EntitySet Name="TAIKHOANs" EntityType="CMART8Model.TAIKHOAN" />
           <AssociationSet Name="FK_CTHOADON_HOADON" Association="CMART8Model.FK_CTHOADON_HOADON">
             <End Role="HOADON" EntitySet="HOADONs" />
@@ -508,8 +622,20 @@
             <End Role="SANPHAM" EntitySet="SANPHAMs" />
             <End Role="KHUYENMAI" EntitySet="KHUYENMAIs" />
           </AssociationSet>
+          <AssociationSet Name="FK_LICHSUGIA_SANPHAM" Association="CMART8Model.FK_LICHSUGIA_SANPHAM">
+            <End Role="SANPHAM" EntitySet="SANPHAMs" />
+            <End Role="LICHSUGIA" EntitySet="LICHSUGIAs" />
+          </AssociationSet>
           <AssociationSet Name="FK_SANPHAM_LOAISANPHAM" Association="CMART8Model.FK_SANPHAM_LOAISANPHAM">
             <End Role="LOAISANPHAM" EntitySet="LOAISANPHAMs" />
+            <End Role="SANPHAM" EntitySet="SANPHAMs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PHIEUDEXUAT_NHACUNGCAP" Association="CMART8Model.FK_PHIEUDEXUAT_NHACUNGCAP">
+            <End Role="NHACUNGCAP" EntitySet="NHACUNGCAPs" />
+            <End Role="PHIEUDEXUAT" EntitySet="PHIEUDEXUATs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SANPHAM_NHACUNGCAP" Association="CMART8Model.FK_SANPHAM_NHACUNGCAP">
+            <End Role="NHACUNGCAP" EntitySet="NHACUNGCAPs" />
             <End Role="SANPHAM" EntitySet="SANPHAMs" />
           </AssociationSet>
           <AssociationSet Name="FK_PHIEUDEXUAT_TAIKHOAN" Association="CMART8Model.FK_PHIEUDEXUAT_TAIKHOAN">
@@ -528,35 +654,106 @@
             <End Role="TAIKHOAN" EntitySet="TAIKHOANs" />
             <End Role="PHIEUNHAPHANGCHINHANH" EntitySet="PHIEUNHAPHANGCHINHANHs" />
           </AssociationSet>
-          <EntitySet Name="NHACUNGCAPs" EntityType="CMART8Model.NHACUNGCAP" />
-          <AssociationSet Name="FK_PHIEUDEXUAT_NHACUNGCAP" Association="CMART8Model.FK_PHIEUDEXUAT_NHACUNGCAP">
-            <End Role="NHACUNGCAP" EntitySet="NHACUNGCAPs" />
-            <End Role="PHIEUDEXUAT" EntitySet="PHIEUDEXUATs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SANPHAM_NHACUNGCAP" Association="CMART8Model.FK_SANPHAM_NHACUNGCAP">
-            <End Role="NHACUNGCAP" EntitySet="NHACUNGCAPs" />
-            <End Role="SANPHAM" EntitySet="SANPHAMs" />
-          </AssociationSet>
-          </EntityContainer>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="principal_id" Nullable="false" />
-          <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="version" />
-          <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
-        </EntityType>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CHITIETHOADON" ReturnType="Collection(CMART8Model.SP_CHITIETHOADON_Result)">
+          <Parameter Name="SOHD" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(CMART8Model.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(CMART8Model.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_HOADON_AUTO">
+          <Parameter Name="SOHOADON" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_HOADON_INSERT">
+            <Parameter Name="TONGTIEN" Mode="In" Type="Double" />
+            <Parameter Name="TIENKHACHDUA" Mode="In" Type="Double" />
+            <Parameter Name="TIENKHATRA" Mode="In" Type="Double" />
+            <Parameter Name="TONGSL" Mode="In" Type="Int32" />
+            <Parameter Name="POS" Mode="In" Type="String" />
+            <Parameter Name="MATK" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PHIEUNHAPHANGCHINHANH_AUTO">
+          <Parameter Name="SOPHIEU" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PHIEUNHAPHANGCHINHANH_INSERT">
+            <Parameter Name="SOPHIEUNHTS" Mode="In" Type="String" />
+            <Parameter Name="TONGTIEN" Mode="In" Type="Double" />
+            <Parameter Name="CHINHANH" Mode="In" Type="String" />
+            <Parameter Name="MATK" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PHIEUNHAPHANGTRUSO_AUTO">
+          <Parameter Name="SOPHIEU" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_PHIEUNHAPHANGTRUSO_INSERT">
+            <Parameter Name="SOPHIEUDEXUAT" Mode="In" Type="String" />
+            <Parameter Name="TONGTIEN" Mode="In" Type="Double" />
+            <Parameter Name="MATK" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_THONGKEDOANHTHU_NAM" ReturnType="Collection(CMART8Model.SP_THONGKEDOANHTHU_NAM_Result)">
+          <Parameter Name="NAM" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_THONGKEDOANHTHU_NGAY" ReturnType="Collection(CMART8Model.SP_THONGKEDOANHTHU_NGAY_Result)">
+            <Parameter Name="NGAY" Mode="In" Type="Int32" />
+            <Parameter Name="THANG" Mode="In" Type="Int32" />
+            <Parameter Name="NAM" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_THONGKEDOANHTHU_TG" ReturnType="Collection(CMART8Model.SP_THONGKEDOANHTHU_TG_Result)">
+            <Parameter Name="NGAYBD" Mode="In" Type="DateTime" />
+            <Parameter Name="NGAYKT" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_THONGKEDOANHTHU_THANG" ReturnType="Collection(CMART8Model.SP_THONGKEDOANHTHU_THANG_Result)">
+            <Parameter Name="THANG" Mode="In" Type="Int32" />
+            <Parameter Name="NAM" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="SP_CHITIETPHIEUNHAPCHINHANH" ReturnType="Collection(CMART8Model.SP_CHITIETPHIEUNHAPCHINHANH_Result)">
+          <Parameter Name="SOPHIEU" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CHITIETPHIEUNHAPTRUSO" ReturnType="Collection(CMART8Model.SP_CHITIETPHIEUNHAPTRUSO_Result)">
+          <Parameter Name="SOPHIEU" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_CHITIETPHIEUDEXUAT" ReturnType="Collection(CMART8Model.SP_CHITIETPHIEUDEXUAT_Result)">
+            <Parameter Name="SOPHIEU" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_THONGKEDOANHTHU">
+            <Parameter Name="THANG" Mode="In" Type="Int32" />
+            <Parameter Name="NAM" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
         <EntityType Name="CTHOADON">
           <Key>
             <PropertyRef Name="SOHD" />
             <PropertyRef Name="MASP" />
           </Key>
-          <Property Type="String" Name="SOHD" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Double" Name="DONGIA" />
-          <Property Type="Int32" Name="SOLUONG" />
+          <Property Name="SOHD" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MASP" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="DONGIA" Type="Double" />
+          <Property Name="SOLUONG" Type="Int32" />
           <NavigationProperty Name="HOADON" Relationship="CMART8Model.FK_CTHOADON_HOADON" FromRole="CTHOADON" ToRole="HOADON" />
           <NavigationProperty Name="SANPHAM" Relationship="CMART8Model.FK_CTHOADON_SANPHAM" FromRole="CTHOADON" ToRole="SANPHAM" />
         </EntityType>
@@ -565,9 +762,9 @@
             <PropertyRef Name="SOPHIEU" />
             <PropertyRef Name="MASP" />
           </Key>
-          <Property Type="String" Name="SOPHIEU" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="SOLUONG" />
+          <Property Name="SOPHIEU" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MASP" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SOLUONG" Type="Int32" />
           <NavigationProperty Name="PHIEUDEXUAT" Relationship="CMART8Model.FK_CTPHIEUDEXUAT_PHIEUDEXUAT" FromRole="CTPHIEUDEXUAT" ToRole="PHIEUDEXUAT" />
           <NavigationProperty Name="SANPHAM" Relationship="CMART8Model.FK_CTPHIEUDEXUAT_SANPHAM" FromRole="CTPHIEUDEXUAT" ToRole="SANPHAM" />
         </EntityType>
@@ -576,10 +773,10 @@
             <PropertyRef Name="SOPHIEUNHCN" />
             <PropertyRef Name="MASP" />
           </Key>
-          <Property Type="String" Name="SOPHIEUNHCN" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="SOLUONG" />
-          <Property Type="String" Name="TINHTRANG" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SOPHIEUNHCN" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MASP" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SOLUONG" Type="Int32" />
+          <Property Name="TINHTRANG" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="PHIEUNHAPHANGCHINHANH" Relationship="CMART8Model.FK_CTPHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGCHINHANH" FromRole="CTPHIEUNHAPHANGCHINHANH" ToRole="PHIEUNHAPHANGCHINHANH" />
           <NavigationProperty Name="SANPHAM" Relationship="CMART8Model.FK_CTPHIEUNHAPHANGCHINHANH_SANPHAM" FromRole="CTPHIEUNHAPHANGCHINHANH" ToRole="SANPHAM" />
         </EntityType>
@@ -588,12 +785,12 @@
             <PropertyRef Name="SOPHIEUNHTS" />
             <PropertyRef Name="MASP" />
           </Key>
-          <Property Type="String" Name="SOPHIEUNHTS" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="SOLUONG" />
-          <Property Type="Double" Name="GIANHAP" />
-          <Property Type="DateTime" Name="HANSD" Precision="3" />
-          <Property Type="String" Name="TINHTRANG" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SOPHIEUNHTS" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MASP" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SOLUONG" Type="Int32" />
+          <Property Name="GIANHAP" Type="Double" />
+          <Property Name="HANSD" Type="DateTime" Precision="3" />
+          <Property Name="TINHTRANG" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="PHIEUNHAPHANGTRUSO" Relationship="CMART8Model.FK_CTPHIEUNHAPHANGTRUSO_PHIEUNHAPHANGTRUSO" FromRole="CTPHIEUNHAPHANGTRUSO" ToRole="PHIEUNHAPHANGTRUSO" />
           <NavigationProperty Name="SANPHAM" Relationship="CMART8Model.FK_CTPHIEUNHAPHANGTRUSO_SANPHAM" FromRole="CTPHIEUNHAPHANGTRUSO" ToRole="SANPHAM" />
         </EntityType>
@@ -601,14 +798,14 @@
           <Key>
             <PropertyRef Name="SOHD" />
           </Key>
-          <Property Type="String" Name="SOHD" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="NGAYBAN" Precision="3" />
-          <Property Type="Double" Name="TONGTIEN" />
-          <Property Type="Double" Name="TIENKHACHDUA" />
-          <Property Type="Double" Name="TIENKHATRA" />
-          <Property Type="Int32" Name="TONGSL" />
-          <Property Type="String" Name="POS" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MATK" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SOHD" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="NGAYBAN" Type="DateTime" Precision="3" />
+          <Property Name="TONGTIEN" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="TIENKHACHDUA" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="TIENKHATRA" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="TONGSL" Type="Int32" />
+          <Property Name="POS" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MATK" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="CTHOADONs" Relationship="CMART8Model.FK_CTHOADON_HOADON" FromRole="HOADON" ToRole="CTHOADON" />
           <NavigationProperty Name="TAIKHOAN" Relationship="CMART8Model.FK_HOADON_TAIKHOAN" FromRole="HOADON" ToRole="TAIKHOAN" />
         </EntityType>
@@ -616,13 +813,13 @@
           <Key>
             <PropertyRef Name="MAKM" />
           </Key>
-          <Property Type="String" Name="MAKM" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MASP" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Double" Name="GIAKM" />
-          <Property Type="DateTime" Name="THOIGIANBD" Precision="3" />
-          <Property Type="DateTime" Name="THOIGIANKT" Precision="3" />
-          <Property Type="String" Name="NOIDUNG" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="HINHANH" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="MAKM" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MASP" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="GIAKM" Type="Double" />
+          <Property Name="THOIGIANBD" Type="DateTime" Precision="3" />
+          <Property Name="THOIGIANKT" Type="DateTime" Precision="3" />
+          <Property Name="NOIDUNG" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="HINHANH" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="SANPHAM" Relationship="CMART8Model.FK_KHUYENMAI_SANPHAM" FromRole="KHUYENMAI" ToRole="SANPHAM" />
         </EntityType>
         <EntityType Name="LICHSUGIA">
@@ -631,41 +828,53 @@
             <PropertyRef Name="GIABAN" />
             <PropertyRef Name="NGAYHIEULUC" />
           </Key>
-          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Double" Name="GIABAN" Nullable="false" />
-          <Property Type="DateTime" Name="NGAYHIEULUC" Nullable="false" Precision="3" />
+          <Property Name="MASP" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="GIABAN" Type="Double" Nullable="false" />
+          <Property Name="NGAYHIEULUC" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="SANPHAM" Relationship="CMART8Model.FK_LICHSUGIA_SANPHAM" FromRole="LICHSUGIA" ToRole="SANPHAM" />
         </EntityType>
         <EntityType Name="LOAISANPHAM">
           <Key>
             <PropertyRef Name="MALOAI" />
           </Key>
-          <Property Type="String" Name="MALOAI" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TENLOAI" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="SOLUONGSP" />
+          <Property Name="MALOAI" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TENLOAI" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SOLUONGSP" Type="Int32" />
           <NavigationProperty Name="SANPHAMs" Relationship="CMART8Model.FK_SANPHAM_LOAISANPHAM" FromRole="LOAISANPHAM" ToRole="SANPHAM" />
+        </EntityType>
+        <EntityType Name="NHACUNGCAP">
+          <Key>
+            <PropertyRef Name="MANCC" />
+          </Key>
+          <Property Name="MANCC" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TENNCC" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SDT" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="DIACHI" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="PHIEUDEXUATs" Relationship="CMART8Model.FK_PHIEUDEXUAT_NHACUNGCAP" FromRole="NHACUNGCAP" ToRole="PHIEUDEXUAT" />
+          <NavigationProperty Name="SANPHAMs" Relationship="CMART8Model.FK_SANPHAM_NHACUNGCAP" FromRole="NHACUNGCAP" ToRole="SANPHAM" />
         </EntityType>
         <EntityType Name="PHIEUDEXUAT">
           <Key>
             <PropertyRef Name="SOPHIEUDX" />
           </Key>
-          <Property Type="String" Name="SOPHIEUDX" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="NGAYDEXUAT" Precision="3" />
-          <Property Type="String" Name="MANCC" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MATK" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SOPHIEUDX" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="NGAYDEXUAT" Type="DateTime" Precision="3" />
+          <Property Name="MANCC" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MATK" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="CTPHIEUDEXUATs" Relationship="CMART8Model.FK_CTPHIEUDEXUAT_PHIEUDEXUAT" FromRole="PHIEUDEXUAT" ToRole="CTPHIEUDEXUAT" />
+          <NavigationProperty Name="NHACUNGCAP" Relationship="CMART8Model.FK_PHIEUDEXUAT_NHACUNGCAP" FromRole="PHIEUDEXUAT" ToRole="NHACUNGCAP" />
           <NavigationProperty Name="TAIKHOAN" Relationship="CMART8Model.FK_PHIEUDEXUAT_TAIKHOAN" FromRole="PHIEUDEXUAT" ToRole="TAIKHOAN" />
           <NavigationProperty Name="PHIEUNHAPHANGTRUSOes" Relationship="CMART8Model.FK_PHIEUNHAPHANGTRUSO_PHIEUDEXUAT" FromRole="PHIEUDEXUAT" ToRole="PHIEUNHAPHANGTRUSO" />
-          <NavigationProperty Name="NHACUNGCAP" Relationship="CMART8Model.FK_PHIEUDEXUAT_NHACUNGCAP" FromRole="PHIEUDEXUAT" ToRole="NHACUNGCAP" />
         </EntityType>
         <EntityType Name="PHIEUNHAPHANGCHINHANH">
           <Key>
             <PropertyRef Name="SOPHIEU" />
           </Key>
-          <Property Type="String" Name="SOPHIEU" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SOPHIEUNHTS" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="NGAYNHAP" Precision="3" />
-          <Property Type="String" Name="CHINHANH" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MATK" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SOPHIEU" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SOPHIEUNHTS" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="NGAYNHAP" Type="DateTime" Precision="3" />
+          <Property Name="CHINHANH" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MATK" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="CTPHIEUNHAPHANGCHINHANHs" Relationship="CMART8Model.FK_CTPHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGCHINHANH" FromRole="PHIEUNHAPHANGCHINHANH" ToRole="CTPHIEUNHAPHANGCHINHANH" />
           <NavigationProperty Name="PHIEUNHAPHANGTRUSO" Relationship="CMART8Model.FK_PHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGTRUSO" FromRole="PHIEUNHAPHANGCHINHANH" ToRole="PHIEUNHAPHANGTRUSO" />
           <NavigationProperty Name="TAIKHOAN" Relationship="CMART8Model.FK_PHIEUNHAPHANGCHINHANH_TAIKHOAN" FromRole="PHIEUNHAPHANGCHINHANH" ToRole="TAIKHOAN" />
@@ -674,11 +883,11 @@
           <Key>
             <PropertyRef Name="SOPHIEU" />
           </Key>
-          <Property Type="String" Name="SOPHIEU" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SOPHIEUDX" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="NGAYNHAP" Precision="3" />
-          <Property Type="Double" Name="TONGTIEN" />
-          <Property Type="String" Name="MATK" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SOPHIEU" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SOPHIEUDX" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="NGAYNHAP" Type="DateTime" Precision="3" />
+          <Property Name="TONGTIEN" Type="Double" />
+          <Property Name="MATK" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="CTPHIEUNHAPHANGTRUSOes" Relationship="CMART8Model.FK_CTPHIEUNHAPHANGTRUSO_PHIEUNHAPHANGTRUSO" FromRole="PHIEUNHAPHANGTRUSO" ToRole="CTPHIEUNHAPHANGTRUSO" />
           <NavigationProperty Name="PHIEUDEXUAT" Relationship="CMART8Model.FK_PHIEUNHAPHANGTRUSO_PHIEUDEXUAT" FromRole="PHIEUNHAPHANGTRUSO" ToRole="PHIEUDEXUAT" />
           <NavigationProperty Name="PHIEUNHAPHANGCHINHANHs" Relationship="CMART8Model.FK_PHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGTRUSO" FromRole="PHIEUNHAPHANGTRUSO" ToRole="PHIEUNHAPHANGCHINHANH" />
@@ -687,38 +896,49 @@
           <Key>
             <PropertyRef Name="MASP" />
           </Key>
-          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TENSP" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="HINHANH" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MALOAI" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MANCC" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MASP" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TENSP" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="HINHANH" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="MALOAI" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MANCC" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="CTHOADONs" Relationship="CMART8Model.FK_CTHOADON_SANPHAM" FromRole="SANPHAM" ToRole="CTHOADON" />
           <NavigationProperty Name="CTPHIEUDEXUATs" Relationship="CMART8Model.FK_CTPHIEUDEXUAT_SANPHAM" FromRole="SANPHAM" ToRole="CTPHIEUDEXUAT" />
           <NavigationProperty Name="CTPHIEUNHAPHANGCHINHANHs" Relationship="CMART8Model.FK_CTPHIEUNHAPHANGCHINHANH_SANPHAM" FromRole="SANPHAM" ToRole="CTPHIEUNHAPHANGCHINHANH" />
           <NavigationProperty Name="CTPHIEUNHAPHANGTRUSOes" Relationship="CMART8Model.FK_CTPHIEUNHAPHANGTRUSO_SANPHAM" FromRole="SANPHAM" ToRole="CTPHIEUNHAPHANGTRUSO" />
           <NavigationProperty Name="KHUYENMAIs" Relationship="CMART8Model.FK_KHUYENMAI_SANPHAM" FromRole="SANPHAM" ToRole="KHUYENMAI" />
+          <NavigationProperty Name="LICHSUGIAs" Relationship="CMART8Model.FK_LICHSUGIA_SANPHAM" FromRole="SANPHAM" ToRole="LICHSUGIA" />
           <NavigationProperty Name="LOAISANPHAM" Relationship="CMART8Model.FK_SANPHAM_LOAISANPHAM" FromRole="SANPHAM" ToRole="LOAISANPHAM" />
           <NavigationProperty Name="NHACUNGCAP" Relationship="CMART8Model.FK_SANPHAM_NHACUNGCAP" FromRole="SANPHAM" ToRole="NHACUNGCAP" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TAIKHOAN">
           <Key>
             <PropertyRef Name="MATK" />
           </Key>
-          <Property Type="String" Name="MATK" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="HOTEN" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DIACHI" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SDT" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="CMND" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TENDANGNHAP" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="MATKHAU" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="QUYEN" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MATK" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="HOTEN" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="DIACHI" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="SDT" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="CMND" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TENDANGNHAP" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MATKHAU" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="QUYEN" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="HOADONs" Relationship="CMART8Model.FK_HOADON_TAIKHOAN" FromRole="TAIKHOAN" ToRole="HOADON" />
           <NavigationProperty Name="PHIEUDEXUATs" Relationship="CMART8Model.FK_PHIEUDEXUAT_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUDEXUAT" />
           <NavigationProperty Name="PHIEUNHAPHANGCHINHANHs" Relationship="CMART8Model.FK_PHIEUNHAPHANGCHINHANH_TAIKHOAN" FromRole="TAIKHOAN" ToRole="PHIEUNHAPHANGCHINHANH" />
         </EntityType>
         <Association Name="FK_CTHOADON_HOADON">
-          <End Type="CMART8Model.HOADON" Role="HOADON" Multiplicity="1" />
-          <End Type="CMART8Model.CTHOADON" Role="CTHOADON" Multiplicity="*" />
+          <End Role="HOADON" Type="CMART8Model.HOADON" Multiplicity="1" />
+          <End Role="CTHOADON" Type="CMART8Model.CTHOADON" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="HOADON">
               <PropertyRef Name="SOHD" />
@@ -729,8 +949,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTHOADON_SANPHAM">
-          <End Type="CMART8Model.SANPHAM" Role="SANPHAM" Multiplicity="1" />
-          <End Type="CMART8Model.CTHOADON" Role="CTHOADON" Multiplicity="*" />
+          <End Role="SANPHAM" Type="CMART8Model.SANPHAM" Multiplicity="1" />
+          <End Role="CTHOADON" Type="CMART8Model.CTHOADON" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SANPHAM">
               <PropertyRef Name="MASP" />
@@ -741,8 +961,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTPHIEUDEXUAT_PHIEUDEXUAT">
-          <End Type="CMART8Model.PHIEUDEXUAT" Role="PHIEUDEXUAT" Multiplicity="1" />
-          <End Type="CMART8Model.CTPHIEUDEXUAT" Role="CTPHIEUDEXUAT" Multiplicity="*" />
+          <End Role="PHIEUDEXUAT" Type="CMART8Model.PHIEUDEXUAT" Multiplicity="1" />
+          <End Role="CTPHIEUDEXUAT" Type="CMART8Model.CTPHIEUDEXUAT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PHIEUDEXUAT">
               <PropertyRef Name="SOPHIEUDX" />
@@ -753,8 +973,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTPHIEUDEXUAT_SANPHAM">
-          <End Type="CMART8Model.SANPHAM" Role="SANPHAM" Multiplicity="1" />
-          <End Type="CMART8Model.CTPHIEUDEXUAT" Role="CTPHIEUDEXUAT" Multiplicity="*" />
+          <End Role="SANPHAM" Type="CMART8Model.SANPHAM" Multiplicity="1" />
+          <End Role="CTPHIEUDEXUAT" Type="CMART8Model.CTPHIEUDEXUAT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SANPHAM">
               <PropertyRef Name="MASP" />
@@ -765,8 +985,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTPHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGCHINHANH">
-          <End Type="CMART8Model.PHIEUNHAPHANGCHINHANH" Role="PHIEUNHAPHANGCHINHANH" Multiplicity="1" />
-          <End Type="CMART8Model.CTPHIEUNHAPHANGCHINHANH" Role="CTPHIEUNHAPHANGCHINHANH" Multiplicity="*" />
+          <End Role="PHIEUNHAPHANGCHINHANH" Type="CMART8Model.PHIEUNHAPHANGCHINHANH" Multiplicity="1" />
+          <End Role="CTPHIEUNHAPHANGCHINHANH" Type="CMART8Model.CTPHIEUNHAPHANGCHINHANH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PHIEUNHAPHANGCHINHANH">
               <PropertyRef Name="SOPHIEU" />
@@ -777,8 +997,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTPHIEUNHAPHANGCHINHANH_SANPHAM">
-          <End Type="CMART8Model.SANPHAM" Role="SANPHAM" Multiplicity="1" />
-          <End Type="CMART8Model.CTPHIEUNHAPHANGCHINHANH" Role="CTPHIEUNHAPHANGCHINHANH" Multiplicity="*" />
+          <End Role="SANPHAM" Type="CMART8Model.SANPHAM" Multiplicity="1" />
+          <End Role="CTPHIEUNHAPHANGCHINHANH" Type="CMART8Model.CTPHIEUNHAPHANGCHINHANH" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SANPHAM">
               <PropertyRef Name="MASP" />
@@ -789,8 +1009,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTPHIEUNHAPHANGTRUSO_PHIEUNHAPHANGTRUSO">
-          <End Type="CMART8Model.PHIEUNHAPHANGTRUSO" Role="PHIEUNHAPHANGTRUSO" Multiplicity="1" />
-          <End Type="CMART8Model.CTPHIEUNHAPHANGTRUSO" Role="CTPHIEUNHAPHANGTRUSO" Multiplicity="*" />
+          <End Role="PHIEUNHAPHANGTRUSO" Type="CMART8Model.PHIEUNHAPHANGTRUSO" Multiplicity="1" />
+          <End Role="CTPHIEUNHAPHANGTRUSO" Type="CMART8Model.CTPHIEUNHAPHANGTRUSO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="PHIEUNHAPHANGTRUSO">
               <PropertyRef Name="SOPHIEU" />
@@ -801,8 +1021,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CTPHIEUNHAPHANGTRUSO_SANPHAM">
-          <End Type="CMART8Model.SANPHAM" Role="SANPHAM" Multiplicity="1" />
-          <End Type="CMART8Model.CTPHIEUNHAPHANGTRUSO" Role="CTPHIEUNHAPHANGTRUSO" Multiplicity="*" />
+          <End Role="SANPHAM" Type="CMART8Model.SANPHAM" Multiplicity="1" />
+          <End Role="CTPHIEUNHAPHANGTRUSO" Type="CMART8Model.CTPHIEUNHAPHANGTRUSO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SANPHAM">
               <PropertyRef Name="MASP" />
@@ -813,8 +1033,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_HOADON_TAIKHOAN">
-          <End Type="CMART8Model.TAIKHOAN" Role="TAIKHOAN" Multiplicity="0..1" />
-          <End Type="CMART8Model.HOADON" Role="HOADON" Multiplicity="*" />
+          <End Role="TAIKHOAN" Type="CMART8Model.TAIKHOAN" Multiplicity="0..1" />
+          <End Role="HOADON" Type="CMART8Model.HOADON" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TAIKHOAN">
               <PropertyRef Name="MATK" />
@@ -825,8 +1045,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_KHUYENMAI_SANPHAM">
-          <End Type="CMART8Model.SANPHAM" Role="SANPHAM" Multiplicity="0..1" />
-          <End Type="CMART8Model.KHUYENMAI" Role="KHUYENMAI" Multiplicity="*" />
+          <End Role="SANPHAM" Type="CMART8Model.SANPHAM" Multiplicity="0..1" />
+          <End Role="KHUYENMAI" Type="CMART8Model.KHUYENMAI" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SANPHAM">
               <PropertyRef Name="MASP" />
@@ -836,9 +1056,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_LICHSUGIA_SANPHAM">
+          <End Role="SANPHAM" Type="CMART8Model.SANPHAM" Multiplicity="1" />
+          <End Role="LICHSUGIA" Type="CMART8Model.LICHSUGIA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SANPHAM">
+              <PropertyRef Name="MASP" />
+            </Principal>
+            <Dependent Role="LICHSUGIA">
+              <PropertyRef Name="MASP" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SANPHAM_LOAISANPHAM">
-          <End Type="CMART8Model.LOAISANPHAM" Role="LOAISANPHAM" Multiplicity="0..1" />
-          <End Type="CMART8Model.SANPHAM" Role="SANPHAM" Multiplicity="*" />
+          <End Role="LOAISANPHAM" Type="CMART8Model.LOAISANPHAM" Multiplicity="0..1" />
+          <End Role="SANPHAM" Type="CMART8Model.SANPHAM" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="LOAISANPHAM">
               <PropertyRef Name="MALOAI" />
@@ -848,68 +1080,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PHIEUDEXUAT_TAIKHOAN">
-          <End Type="CMART8Model.TAIKHOAN" Role="TAIKHOAN" Multiplicity="0..1" />
-          <End Type="CMART8Model.PHIEUDEXUAT" Role="PHIEUDEXUAT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TAIKHOAN">
-              <PropertyRef Name="MATK" />
-            </Principal>
-            <Dependent Role="PHIEUDEXUAT">
-              <PropertyRef Name="MATK" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PHIEUNHAPHANGTRUSO_PHIEUDEXUAT">
-          <End Type="CMART8Model.PHIEUDEXUAT" Role="PHIEUDEXUAT" Multiplicity="0..1" />
-          <End Type="CMART8Model.PHIEUNHAPHANGTRUSO" Role="PHIEUNHAPHANGTRUSO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PHIEUDEXUAT">
-              <PropertyRef Name="SOPHIEUDX" />
-            </Principal>
-            <Dependent Role="PHIEUNHAPHANGTRUSO">
-              <PropertyRef Name="SOPHIEUDX" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGTRUSO">
-          <End Type="CMART8Model.PHIEUNHAPHANGTRUSO" Role="PHIEUNHAPHANGTRUSO" Multiplicity="0..1" />
-          <End Type="CMART8Model.PHIEUNHAPHANGCHINHANH" Role="PHIEUNHAPHANGCHINHANH" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PHIEUNHAPHANGTRUSO">
-              <PropertyRef Name="SOPHIEU" />
-            </Principal>
-            <Dependent Role="PHIEUNHAPHANGCHINHANH">
-              <PropertyRef Name="SOPHIEUNHTS" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PHIEUNHAPHANGCHINHANH_TAIKHOAN">
-          <End Type="CMART8Model.TAIKHOAN" Role="TAIKHOAN" Multiplicity="0..1" />
-          <End Type="CMART8Model.PHIEUNHAPHANGCHINHANH" Role="PHIEUNHAPHANGCHINHANH" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TAIKHOAN">
-              <PropertyRef Name="MATK" />
-            </Principal>
-            <Dependent Role="PHIEUNHAPHANGCHINHANH">
-              <PropertyRef Name="MATK" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="NHACUNGCAP">
-          <Key>
-            <PropertyRef Name="MANCC" />
-          </Key>
-          <Property Type="String" Name="MANCC" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TENNCC" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="SDT" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="DIACHI" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="PHIEUDEXUATs" Relationship="CMART8Model.FK_PHIEUDEXUAT_NHACUNGCAP" FromRole="NHACUNGCAP" ToRole="PHIEUDEXUAT" />
-          <NavigationProperty Name="SANPHAMs" Relationship="CMART8Model.FK_SANPHAM_NHACUNGCAP" FromRole="NHACUNGCAP" ToRole="SANPHAM" />
-        </EntityType>
         <Association Name="FK_PHIEUDEXUAT_NHACUNGCAP">
-          <End Type="CMART8Model.NHACUNGCAP" Role="NHACUNGCAP" Multiplicity="0..1" />
-          <End Type="CMART8Model.PHIEUDEXUAT" Role="PHIEUDEXUAT" Multiplicity="*" />
+          <End Role="NHACUNGCAP" Type="CMART8Model.NHACUNGCAP" Multiplicity="0..1" />
+          <End Role="PHIEUDEXUAT" Type="CMART8Model.PHIEUDEXUAT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="NHACUNGCAP">
               <PropertyRef Name="MANCC" />
@@ -920,8 +1093,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SANPHAM_NHACUNGCAP">
-          <End Type="CMART8Model.NHACUNGCAP" Role="NHACUNGCAP" Multiplicity="0..1" />
-          <End Type="CMART8Model.SANPHAM" Role="SANPHAM" Multiplicity="*" />
+          <End Role="NHACUNGCAP" Type="CMART8Model.NHACUNGCAP" Multiplicity="0..1" />
+          <End Role="SANPHAM" Type="CMART8Model.SANPHAM" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="NHACUNGCAP">
               <PropertyRef Name="MANCC" />
@@ -931,176 +1104,452 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema>
+        <Association Name="FK_PHIEUDEXUAT_TAIKHOAN">
+          <End Role="TAIKHOAN" Type="CMART8Model.TAIKHOAN" Multiplicity="0..1" />
+          <End Role="PHIEUDEXUAT" Type="CMART8Model.PHIEUDEXUAT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAIKHOAN">
+              <PropertyRef Name="MATK" />
+            </Principal>
+            <Dependent Role="PHIEUDEXUAT">
+              <PropertyRef Name="MATK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHIEUNHAPHANGTRUSO_PHIEUDEXUAT">
+          <End Role="PHIEUDEXUAT" Type="CMART8Model.PHIEUDEXUAT" Multiplicity="0..1" />
+          <End Role="PHIEUNHAPHANGTRUSO" Type="CMART8Model.PHIEUNHAPHANGTRUSO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHIEUDEXUAT">
+              <PropertyRef Name="SOPHIEUDX" />
+            </Principal>
+            <Dependent Role="PHIEUNHAPHANGTRUSO">
+              <PropertyRef Name="SOPHIEUDX" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGTRUSO">
+          <End Role="PHIEUNHAPHANGTRUSO" Type="CMART8Model.PHIEUNHAPHANGTRUSO" Multiplicity="0..1" />
+          <End Role="PHIEUNHAPHANGCHINHANH" Type="CMART8Model.PHIEUNHAPHANGCHINHANH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PHIEUNHAPHANGTRUSO">
+              <PropertyRef Name="SOPHIEU" />
+            </Principal>
+            <Dependent Role="PHIEUNHAPHANGCHINHANH">
+              <PropertyRef Name="SOPHIEUNHTS" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PHIEUNHAPHANGCHINHANH_TAIKHOAN">
+          <End Role="TAIKHOAN" Type="CMART8Model.TAIKHOAN" Multiplicity="0..1" />
+          <End Role="PHIEUNHAPHANGCHINHANH" Type="CMART8Model.PHIEUNHAPHANGCHINHANH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TAIKHOAN">
+              <PropertyRef Name="MATK" />
+            </Principal>
+            <Dependent Role="PHIEUNHAPHANGCHINHANH">
+              <PropertyRef Name="MATK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="SP_CHITIETHOADON_Result">
+          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TENSP" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SOLUONG" Nullable="true" />
+          <Property Type="Double" Name="DONGIA" Nullable="true" />
+          <Property Type="String" Name="SOHD" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="POS" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TIENKHACHDUA" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TIENKHATRA" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MATK" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HOTEN" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="THANHTIEN" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_THONGKEDOANHTHU_NAM_Result">
+          <Property Type="String" Name="SOHD" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HOTEN" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NGAYBAN" Nullable="true" Precision="23" />
+          <Property Type="String" Name="POS" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TONGSL" Nullable="true" />
+          <Property Type="String" Name="TONGTIEN" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_THONGKEDOANHTHU_NGAY_Result">
+          <Property Type="String" Name="SOHD" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HOTEN" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NGAYBAN" Nullable="true" Precision="23" />
+          <Property Type="String" Name="POS" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TONGSL" Nullable="true" />
+          <Property Type="String" Name="TONGTIEN" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_THONGKEDOANHTHU_TG_Result">
+          <Property Type="String" Name="SOHD" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HOTEN" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NGAYBAN" Nullable="true" Precision="23" />
+          <Property Type="String" Name="POS" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TONGSL" Nullable="true" />
+          <Property Type="String" Name="TONGTIEN" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NGAYBD" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="NGAYKT" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_THONGKEDOANHTHU_THANG_Result">
+          <Property Type="String" Name="SOHD" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="HOTEN" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NGAYBAN" Nullable="true" Precision="23" />
+          <Property Type="String" Name="POS" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="TONGSL" Nullable="true" />
+          <Property Type="String" Name="TONGTIEN" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="SP_CHITIETPHIEUNHAPCHINHANH_Result">
+          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TENSP" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SOLUONG" Nullable="true" />
+          <Property Type="String" Name="TINHTRANG" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="SOPHIEU" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SOPHIEUNHTS" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NGAYNHAP" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_CHITIETPHIEUNHAPTRUSO_Result">
+          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="TENSP" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="SOLUONG" Nullable="true" />
+          <Property Type="String" Name="TINHTRANG" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="GIANHAP" Nullable="true" />
+          <Property Type="Double" Name="THANHTIEN" Nullable="true" />
+          <Property Type="String" Name="SOPHIEU" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="SOPHIEUDX" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="NGAYNHAP" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="SP_CHITIETPHIEUDEXUAT_Result">
+          <Property Type="String" Name="SOPHIEUDX" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="NGAYDEXUAT" Nullable="true" Precision="23" />
+          <Property Type="String" Name="MANCC" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TENSP" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MASP" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="SOLUONG" Nullable="true" />
+          <Property Type="String" Name="HOTEN" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="TENNCC" Nullable="true" MaxLength="50" />
+        </ComplexType>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="CMART8ModelStoreContainer" CdmEntityContainer="CMART8Entities">
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="CMART8Model.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CTHOADONs">
             <EntityTypeMapping TypeName="CMART8Model.CTHOADON">
               <MappingFragment StoreEntitySet="CTHOADON">
-                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
-                <ScalarProperty Name="DONGIA" ColumnName="DONGIA" />
-                <ScalarProperty Name="MASP" ColumnName="MASP" />
                 <ScalarProperty Name="SOHD" ColumnName="SOHD" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="DONGIA" ColumnName="DONGIA" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CTPHIEUDEXUATs">
             <EntityTypeMapping TypeName="CMART8Model.CTPHIEUDEXUAT">
               <MappingFragment StoreEntitySet="CTPHIEUDEXUAT">
-                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
-                <ScalarProperty Name="MASP" ColumnName="MASP" />
                 <ScalarProperty Name="SOPHIEU" ColumnName="SOPHIEU" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CTPHIEUNHAPHANGCHINHANHs">
             <EntityTypeMapping TypeName="CMART8Model.CTPHIEUNHAPHANGCHINHANH">
               <MappingFragment StoreEntitySet="CTPHIEUNHAPHANGCHINHANH">
-                <ScalarProperty Name="TINHTRANG" ColumnName="TINHTRANG" />
-                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
-                <ScalarProperty Name="MASP" ColumnName="MASP" />
                 <ScalarProperty Name="SOPHIEUNHCN" ColumnName="SOPHIEUNHCN" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="TINHTRANG" ColumnName="TINHTRANG" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CTPHIEUNHAPHANGTRUSOes">
             <EntityTypeMapping TypeName="CMART8Model.CTPHIEUNHAPHANGTRUSO">
               <MappingFragment StoreEntitySet="CTPHIEUNHAPHANGTRUSO">
-                <ScalarProperty Name="TINHTRANG" ColumnName="TINHTRANG" />
-                <ScalarProperty Name="HANSD" ColumnName="HANSD" />
-                <ScalarProperty Name="GIANHAP" ColumnName="GIANHAP" />
-                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
-                <ScalarProperty Name="MASP" ColumnName="MASP" />
                 <ScalarProperty Name="SOPHIEUNHTS" ColumnName="SOPHIEUNHTS" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="GIANHAP" ColumnName="GIANHAP" />
+                <ScalarProperty Name="HANSD" ColumnName="HANSD" />
+                <ScalarProperty Name="TINHTRANG" ColumnName="TINHTRANG" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="HOADONs">
             <EntityTypeMapping TypeName="CMART8Model.HOADON">
               <MappingFragment StoreEntitySet="HOADON">
-                <ScalarProperty Name="MATK" ColumnName="MATK" />
-                <ScalarProperty Name="POS" ColumnName="POS" />
-                <ScalarProperty Name="TONGSL" ColumnName="TONGSL" />
-                <ScalarProperty Name="TIENKHATRA" ColumnName="TIENKHATRA" />
-                <ScalarProperty Name="TIENKHACHDUA" ColumnName="TIENKHACHDUA" />
-                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
-                <ScalarProperty Name="NGAYBAN" ColumnName="NGAYBAN" />
                 <ScalarProperty Name="SOHD" ColumnName="SOHD" />
+                <ScalarProperty Name="NGAYBAN" ColumnName="NGAYBAN" />
+                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
+                <ScalarProperty Name="TIENKHACHDUA" ColumnName="TIENKHACHDUA" />
+                <ScalarProperty Name="TIENKHATRA" ColumnName="TIENKHATRA" />
+                <ScalarProperty Name="TONGSL" ColumnName="TONGSL" />
+                <ScalarProperty Name="POS" ColumnName="POS" />
+                <ScalarProperty Name="MATK" ColumnName="MATK" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="KHUYENMAIs">
             <EntityTypeMapping TypeName="CMART8Model.KHUYENMAI">
               <MappingFragment StoreEntitySet="KHUYENMAI">
-                <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
-                <ScalarProperty Name="NOIDUNG" ColumnName="NOIDUNG" />
-                <ScalarProperty Name="THOIGIANKT" ColumnName="THOIGIANKT" />
-                <ScalarProperty Name="THOIGIANBD" ColumnName="THOIGIANBD" />
-                <ScalarProperty Name="GIAKM" ColumnName="GIAKM" />
-                <ScalarProperty Name="MASP" ColumnName="MASP" />
                 <ScalarProperty Name="MAKM" ColumnName="MAKM" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="GIAKM" ColumnName="GIAKM" />
+                <ScalarProperty Name="THOIGIANBD" ColumnName="THOIGIANBD" />
+                <ScalarProperty Name="THOIGIANKT" ColumnName="THOIGIANKT" />
+                <ScalarProperty Name="NOIDUNG" ColumnName="NOIDUNG" />
+                <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LICHSUGIAs">
             <EntityTypeMapping TypeName="CMART8Model.LICHSUGIA">
               <MappingFragment StoreEntitySet="LICHSUGIA">
-                <ScalarProperty Name="NGAYHIEULUC" ColumnName="NGAYHIEULUC" />
-                <ScalarProperty Name="GIABAN" ColumnName="GIABAN" />
                 <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="GIABAN" ColumnName="GIABAN" />
+                <ScalarProperty Name="NGAYHIEULUC" ColumnName="NGAYHIEULUC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="LOAISANPHAMs">
             <EntityTypeMapping TypeName="CMART8Model.LOAISANPHAM">
               <MappingFragment StoreEntitySet="LOAISANPHAM">
-                <ScalarProperty Name="SOLUONGSP" ColumnName="SOLUONGSP" />
+                <ScalarProperty Name="MALOAI" ColumnName="MALOAI" />
                 <ScalarProperty Name="TENLOAI" ColumnName="TENLOAI" />
-                <ScalarProperty Name="MALOAI" ColumnName="MALOAI" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PHIEUDEXUATs">
-            <EntityTypeMapping TypeName="CMART8Model.PHIEUDEXUAT">
-              <MappingFragment StoreEntitySet="PHIEUDEXUAT">
-                <ScalarProperty Name="MATK" ColumnName="MATK" />
-                <ScalarProperty Name="MANCC" ColumnName="MANCC" />
-                <ScalarProperty Name="NGAYDEXUAT" ColumnName="NGAYDEXUAT" />
-                <ScalarProperty Name="SOPHIEUDX" ColumnName="SOPHIEUDX" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PHIEUNHAPHANGCHINHANHs">
-            <EntityTypeMapping TypeName="CMART8Model.PHIEUNHAPHANGCHINHANH">
-              <MappingFragment StoreEntitySet="PHIEUNHAPHANGCHINHANH">
-                <ScalarProperty Name="MATK" ColumnName="MATK" />
-                <ScalarProperty Name="CHINHANH" ColumnName="CHINHANH" />
-                <ScalarProperty Name="NGAYNHAP" ColumnName="NGAYNHAP" />
-                <ScalarProperty Name="SOPHIEUNHTS" ColumnName="SOPHIEUNHTS" />
-                <ScalarProperty Name="SOPHIEU" ColumnName="SOPHIEU" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PHIEUNHAPHANGTRUSOes">
-            <EntityTypeMapping TypeName="CMART8Model.PHIEUNHAPHANGTRUSO">
-              <MappingFragment StoreEntitySet="PHIEUNHAPHANGTRUSO">
-                <ScalarProperty Name="MATK" ColumnName="MATK" />
-                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
-                <ScalarProperty Name="NGAYNHAP" ColumnName="NGAYNHAP" />
-                <ScalarProperty Name="SOPHIEUDX" ColumnName="SOPHIEUDX" />
-                <ScalarProperty Name="SOPHIEU" ColumnName="SOPHIEU" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="SANPHAMs">
-            <EntityTypeMapping TypeName="CMART8Model.SANPHAM">
-              <MappingFragment StoreEntitySet="SANPHAM">
-                <ScalarProperty Name="MANCC" ColumnName="MANCC" />
-                <ScalarProperty Name="MALOAI" ColumnName="MALOAI" />
-                <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
-                <ScalarProperty Name="TENSP" ColumnName="TENSP" />
-                <ScalarProperty Name="MASP" ColumnName="MASP" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TAIKHOANs">
-            <EntityTypeMapping TypeName="CMART8Model.TAIKHOAN">
-              <MappingFragment StoreEntitySet="TAIKHOAN">
-                <ScalarProperty Name="QUYEN" ColumnName="QUYEN" />
-                <ScalarProperty Name="MATKHAU" ColumnName="MATKHAU" />
-                <ScalarProperty Name="TENDANGNHAP" ColumnName="TENDANGNHAP" />
-                <ScalarProperty Name="CMND" ColumnName="CMND" />
-                <ScalarProperty Name="SDT" ColumnName="SDT" />
-                <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
-                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
-                <ScalarProperty Name="MATK" ColumnName="MATK" />
+                <ScalarProperty Name="SOLUONGSP" ColumnName="SOLUONGSP" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="NHACUNGCAPs">
             <EntityTypeMapping TypeName="CMART8Model.NHACUNGCAP">
               <MappingFragment StoreEntitySet="NHACUNGCAP">
-                <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
-                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="MANCC" ColumnName="MANCC" />
                 <ScalarProperty Name="TENNCC" ColumnName="TENNCC" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PHIEUDEXUATs">
+            <EntityTypeMapping TypeName="CMART8Model.PHIEUDEXUAT">
+              <MappingFragment StoreEntitySet="PHIEUDEXUAT">
+                <ScalarProperty Name="SOPHIEUDX" ColumnName="SOPHIEUDX" />
+                <ScalarProperty Name="NGAYDEXUAT" ColumnName="NGAYDEXUAT" />
+                <ScalarProperty Name="MANCC" ColumnName="MANCC" />
+                <ScalarProperty Name="MATK" ColumnName="MATK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PHIEUNHAPHANGCHINHANHs">
+            <EntityTypeMapping TypeName="CMART8Model.PHIEUNHAPHANGCHINHANH">
+              <MappingFragment StoreEntitySet="PHIEUNHAPHANGCHINHANH">
+                <ScalarProperty Name="SOPHIEU" ColumnName="SOPHIEU" />
+                <ScalarProperty Name="SOPHIEUNHTS" ColumnName="SOPHIEUNHTS" />
+                <ScalarProperty Name="NGAYNHAP" ColumnName="NGAYNHAP" />
+                <ScalarProperty Name="CHINHANH" ColumnName="CHINHANH" />
+                <ScalarProperty Name="MATK" ColumnName="MATK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PHIEUNHAPHANGTRUSOes">
+            <EntityTypeMapping TypeName="CMART8Model.PHIEUNHAPHANGTRUSO">
+              <MappingFragment StoreEntitySet="PHIEUNHAPHANGTRUSO">
+                <ScalarProperty Name="SOPHIEU" ColumnName="SOPHIEU" />
+                <ScalarProperty Name="SOPHIEUDX" ColumnName="SOPHIEUDX" />
+                <ScalarProperty Name="NGAYNHAP" ColumnName="NGAYNHAP" />
+                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
+                <ScalarProperty Name="MATK" ColumnName="MATK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SANPHAMs">
+            <EntityTypeMapping TypeName="CMART8Model.SANPHAM">
+              <MappingFragment StoreEntitySet="SANPHAM">
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="TENSP" ColumnName="TENSP" />
+                <ScalarProperty Name="HINHANH" ColumnName="HINHANH" />
+                <ScalarProperty Name="MALOAI" ColumnName="MALOAI" />
                 <ScalarProperty Name="MANCC" ColumnName="MANCC" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="CMART8Model.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TAIKHOANs">
+            <EntityTypeMapping TypeName="CMART8Model.TAIKHOAN">
+              <MappingFragment StoreEntitySet="TAIKHOAN">
+                <ScalarProperty Name="MATK" ColumnName="MATK" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="DIACHI" ColumnName="DIACHI" />
+                <ScalarProperty Name="SDT" ColumnName="SDT" />
+                <ScalarProperty Name="CMND" ColumnName="CMND" />
+                <ScalarProperty Name="TENDANGNHAP" ColumnName="TENDANGNHAP" />
+                <ScalarProperty Name="MATKHAU" ColumnName="MATKHAU" />
+                <ScalarProperty Name="QUYEN" ColumnName="QUYEN" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="CMART8Model.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="SP_CHITIETHOADON" FunctionName="CMART8Model.Store.SP_CHITIETHOADON">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.SP_CHITIETHOADON_Result">
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="TENSP" ColumnName="TENSP" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="DONGIA" ColumnName="DONGIA" />
+                <ScalarProperty Name="SOHD" ColumnName="SOHD" />
+                <ScalarProperty Name="POS" ColumnName="POS" />
+                <ScalarProperty Name="TIENKHACHDUA" ColumnName="TIENKHACHDUA" />
+                <ScalarProperty Name="TIENKHATRA" ColumnName="TIENKHATRA" />
+                <ScalarProperty Name="MATK" ColumnName="MATK" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="THANHTIEN" ColumnName="THANHTIEN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="CMART8Model.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="CMART8Model.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="CMART8Model.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="CMART8Model.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_HOADON_AUTO" FunctionName="CMART8Model.Store.SP_HOADON_AUTO" />
+          <FunctionImportMapping FunctionImportName="SP_HOADON_INSERT" FunctionName="CMART8Model.Store.SP_HOADON_INSERT" />
+          <FunctionImportMapping FunctionImportName="SP_PHIEUNHAPHANGCHINHANH_AUTO" FunctionName="CMART8Model.Store.SP_PHIEUNHAPHANGCHINHANH_AUTO" />
+          <FunctionImportMapping FunctionImportName="SP_PHIEUNHAPHANGCHINHANH_INSERT" FunctionName="CMART8Model.Store.SP_PHIEUNHAPHANGCHINHANH_INSERT" />
+          <FunctionImportMapping FunctionImportName="SP_PHIEUNHAPHANGTRUSO_AUTO" FunctionName="CMART8Model.Store.SP_PHIEUNHAPHANGTRUSO_AUTO" />
+          <FunctionImportMapping FunctionImportName="SP_PHIEUNHAPHANGTRUSO_INSERT" FunctionName="CMART8Model.Store.SP_PHIEUNHAPHANGTRUSO_INSERT" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="CMART8Model.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="SP_THONGKEDOANHTHU_NAM" FunctionName="CMART8Model.Store.SP_THONGKEDOANHTHU_NAM">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.SP_THONGKEDOANHTHU_NAM_Result">
+                <ScalarProperty Name="SOHD" ColumnName="SOHD" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="NGAYBAN" ColumnName="NGAYBAN" />
+                <ScalarProperty Name="POS" ColumnName="POS" />
+                <ScalarProperty Name="TONGSL" ColumnName="TONGSL" />
+                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_THONGKEDOANHTHU_NGAY" FunctionName="CMART8Model.Store.SP_THONGKEDOANHTHU_NGAY">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.SP_THONGKEDOANHTHU_NGAY_Result">
+                <ScalarProperty Name="SOHD" ColumnName="SOHD" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="NGAYBAN" ColumnName="NGAYBAN" />
+                <ScalarProperty Name="POS" ColumnName="POS" />
+                <ScalarProperty Name="TONGSL" ColumnName="TONGSL" />
+                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_THONGKEDOANHTHU_TG" FunctionName="CMART8Model.Store.SP_THONGKEDOANHTHU_TG">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.SP_THONGKEDOANHTHU_TG_Result">
+                <ScalarProperty Name="SOHD" ColumnName="SOHD" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="NGAYBAN" ColumnName="NGAYBAN" />
+                <ScalarProperty Name="POS" ColumnName="POS" />
+                <ScalarProperty Name="TONGSL" ColumnName="TONGSL" />
+                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
+                <ScalarProperty Name="NGAYBD" ColumnName="NGAYBD" />
+                <ScalarProperty Name="NGAYKT" ColumnName="NGAYKT" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_THONGKEDOANHTHU_THANG" FunctionName="CMART8Model.Store.SP_THONGKEDOANHTHU_THANG">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.SP_THONGKEDOANHTHU_THANG_Result">
+                <ScalarProperty Name="SOHD" ColumnName="SOHD" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="NGAYBAN" ColumnName="NGAYBAN" />
+                <ScalarProperty Name="POS" ColumnName="POS" />
+                <ScalarProperty Name="TONGSL" ColumnName="TONGSL" />
+                <ScalarProperty Name="TONGTIEN" ColumnName="TONGTIEN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="CMART8Model.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="SP_CHITIETPHIEUNHAPCHINHANH" FunctionName="CMART8Model.Store.SP_CHITIETPHIEUNHAPCHINHANH">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.SP_CHITIETPHIEUNHAPCHINHANH_Result">
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="TENSP" ColumnName="TENSP" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="TINHTRANG" ColumnName="TINHTRANG" />
+                <ScalarProperty Name="SOPHIEU" ColumnName="SOPHIEU" />
+                <ScalarProperty Name="SOPHIEUNHTS" ColumnName="SOPHIEUNHTS" />
+                <ScalarProperty Name="NGAYNHAP" ColumnName="NGAYNHAP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CHITIETPHIEUNHAPTRUSO" FunctionName="CMART8Model.Store.SP_CHITIETPHIEUNHAPTRUSO">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.SP_CHITIETPHIEUNHAPTRUSO_Result">
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="TENSP" ColumnName="TENSP" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="TINHTRANG" ColumnName="TINHTRANG" />
+                <ScalarProperty Name="GIANHAP" ColumnName="GIANHAP" />
+                <ScalarProperty Name="THANHTIEN" ColumnName="THANHTIEN" />
+                <ScalarProperty Name="SOPHIEU" ColumnName="SOPHIEU" />
+                <ScalarProperty Name="SOPHIEUDX" ColumnName="SOPHIEUDX" />
+                <ScalarProperty Name="NGAYNHAP" ColumnName="NGAYNHAP" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_CHITIETPHIEUDEXUAT" FunctionName="CMART8Model.Store.SP_CHITIETPHIEUDEXUAT">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CMART8Model.SP_CHITIETPHIEUDEXUAT_Result">
+                <ScalarProperty Name="SOPHIEUDX" ColumnName="SOPHIEUDX" />
+                <ScalarProperty Name="NGAYDEXUAT" ColumnName="NGAYDEXUAT" />
+                <ScalarProperty Name="MANCC" ColumnName="MANCC" />
+                <ScalarProperty Name="TENSP" ColumnName="TENSP" />
+                <ScalarProperty Name="MASP" ColumnName="MASP" />
+                <ScalarProperty Name="SOLUONG" ColumnName="SOLUONG" />
+                <ScalarProperty Name="HOTEN" ColumnName="HOTEN" />
+                <ScalarProperty Name="TENNCC" ColumnName="TENNCC" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_THONGKEDOANHTHU" FunctionName="CMART8Model.Store.SP_THONGKEDOANHTHU" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1121,41 +1570,6 @@
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
-    <Diagrams>
-      <Diagram Name="Model" ZoomLevel="106">
-        <EntityTypeShape EntityType="CMART8Model.sysdiagram" Width="1.5" PointX="9.9376724036120212" PointY="28.562769336887992" />
-        <EntityTypeShape EntityType="CMART8Model.CTHOADON" Width="1.5" PointX="6.21189757725778" PointY="9.80157825807183" />
-        <EntityTypeShape EntityType="CMART8Model.CTPHIEUDEXUAT" Width="1.5" PointX="1.2337374525301799" PointY="26.494501603066222" />
-        <EntityTypeShape EntityType="CMART8Model.CTPHIEUNHAPHANGCHINHANH" Width="1.5" PointX="1.5458520341412407" PointY="29.585594608255473" />
-        <EntityTypeShape EntityType="CMART8Model.CTPHIEUNHAPHANGTRUSO" Width="1.5" PointX="7.0279799378607333" PointY="16.943314932726004" />
-        <EntityTypeShape EntityType="CMART8Model.HOADON" Width="1.5" PointX="11.455916968852243" PointY="30.78491285386724" />
-        <EntityTypeShape EntityType="CMART8Model.KHUYENMAI" Width="1.5" PointX="11.356715613676569" PointY="13.884116298465113" />
-        <EntityTypeShape EntityType="CMART8Model.LICHSUGIA" Width="1.5" PointX="0.5892506933721019" PointY="25.234337922760442" />
-        <EntityTypeShape EntityType="CMART8Model.LOAISANPHAM" Width="1.5" PointX="5.125" PointY="15.375" />
-        <EntityTypeShape EntityType="CMART8Model.PHIEUDEXUAT" Width="1.5" PointX="1.4636613714805158" PointY="1.2975415891490605" />
-        <EntityTypeShape EntityType="CMART8Model.PHIEUNHAPHANGCHINHANH" Width="1.5" PointX="2.2142105541258168" PointY="26.786969197349144" />
-        <EntityTypeShape EntityType="CMART8Model.PHIEUNHAPHANGTRUSO" Width="1.5" PointX="7.1649583853618042" PointY="5.9367117611396649" />
-        <EntityTypeShape EntityType="CMART8Model.SANPHAM" Width="1.5" PointX="9.91584135681197" PointY="22.612217973271488" />
-        <EntityTypeShape EntityType="CMART8Model.TAIKHOAN" Width="1.5" PointX="11.131210209397231" PointY="12.435967793891191" />
-        <AssociationConnector Association="CMART8Model.FK_CTHOADON_HOADON" />
-        <AssociationConnector Association="CMART8Model.FK_CTHOADON_SANPHAM" />
-        <AssociationConnector Association="CMART8Model.FK_CTPHIEUDEXUAT_PHIEUDEXUAT" />
-        <AssociationConnector Association="CMART8Model.FK_CTPHIEUDEXUAT_SANPHAM" />
-        <AssociationConnector Association="CMART8Model.FK_CTPHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGCHINHANH" />
-        <AssociationConnector Association="CMART8Model.FK_CTPHIEUNHAPHANGCHINHANH_SANPHAM" />
-        <AssociationConnector Association="CMART8Model.FK_CTPHIEUNHAPHANGTRUSO_PHIEUNHAPHANGTRUSO" />
-        <AssociationConnector Association="CMART8Model.FK_CTPHIEUNHAPHANGTRUSO_SANPHAM" />
-        <AssociationConnector Association="CMART8Model.FK_HOADON_TAIKHOAN" />
-        <AssociationConnector Association="CMART8Model.FK_KHUYENMAI_SANPHAM" />
-        <AssociationConnector Association="CMART8Model.FK_SANPHAM_LOAISANPHAM" />
-        <AssociationConnector Association="CMART8Model.FK_PHIEUDEXUAT_TAIKHOAN" />
-        <AssociationConnector Association="CMART8Model.FK_PHIEUNHAPHANGTRUSO_PHIEUDEXUAT" />
-        <AssociationConnector Association="CMART8Model.FK_PHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGTRUSO" />
-        <AssociationConnector Association="CMART8Model.FK_PHIEUNHAPHANGCHINHANH_TAIKHOAN" />
-        <EntityTypeShape EntityType="CMART8Model.NHACUNGCAP" Width="1.5" PointX="4.125" PointY="21.875" />
-        <AssociationConnector Association="CMART8Model.FK_PHIEUDEXUAT_NHACUNGCAP" />
-        <AssociationConnector Association="CMART8Model.FK_SANPHAM_NHACUNGCAP" />
-        </Diagram>
-    </Diagrams>
+    <Diagrams></Diagrams>
   </Designer>
 </edmx:Edmx>

@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e522e70e45c740639b18c5ed1bdb7120" Name="Diagram1">
+        <EntityTypeShape EntityType="CMART8Model.CTHOADON" Width="1.5" PointX="11.25" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.CTPHIEUDEXUAT" Width="1.5" PointX="8.25" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.CTPHIEUNHAPHANGCHINHANH" Width="1.5" PointX="10.75" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.CTPHIEUNHAPHANGTRUSO" Width="1.5" PointX="11.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.HOADON" Width="1.5" PointX="9" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.KHUYENMAI" Width="1.5" PointX="8.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.LICHSUGIA" Width="1.5" PointX="8.25" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.LOAISANPHAM" Width="1.5" PointX="3.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.NHACUNGCAP" Width="1.5" PointX="0.75" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.PHIEUDEXUAT" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.PHIEUNHAPHANGCHINHANH" Width="1.5" PointX="7.5" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.PHIEUNHAPHANGTRUSO" Width="1.5" PointX="5.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.SANPHAM" Width="1.5" PointX="6" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CMART8Model.TAIKHOAN" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <AssociationConnector Association="CMART8Model.FK_CTHOADON_HOADON" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_CTHOADON_SANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_CTPHIEUDEXUAT_PHIEUDEXUAT" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_CTPHIEUDEXUAT_SANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_CTPHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGCHINHANH" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_CTPHIEUNHAPHANGCHINHANH_SANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_CTPHIEUNHAPHANGTRUSO_PHIEUNHAPHANGTRUSO" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_CTPHIEUNHAPHANGTRUSO_SANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_HOADON_TAIKHOAN" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_KHUYENMAI_SANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_LICHSUGIA_SANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_SANPHAM_LOAISANPHAM" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_PHIEUDEXUAT_NHACUNGCAP" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_SANPHAM_NHACUNGCAP" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_PHIEUDEXUAT_TAIKHOAN" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_PHIEUNHAPHANGTRUSO_PHIEUDEXUAT" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_PHIEUNHAPHANGCHINHANH_PHIEUNHAPHANGTRUSO" ManuallyRouted="false" />
+        <AssociationConnector Association="CMART8Model.FK_PHIEUNHAPHANGCHINHANH_TAIKHOAN" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

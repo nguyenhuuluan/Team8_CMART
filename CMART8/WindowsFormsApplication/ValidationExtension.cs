@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     class ValidationExtension
     {
@@ -41,6 +41,19 @@ namespace WindowsFormsApplication
                 return false;
             }
         }
+        public bool dateTime(DateTime t1, DateTime t2)
+        {
+            TimeSpan t = t2 - t1;
+            double tmp = t.TotalSeconds;
+            if (tmp > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public bool MinLength(TextBox t, int min)
         {
             if (t.Text.ToString().Length < min)
@@ -50,6 +63,24 @@ namespace WindowsFormsApplication
             else
             {
                 return true;
+            }
+        }
+        public bool MinValue(TextBox t, ulong min)
+        {
+            try
+            {
+                if (ulong.Parse(t.Text.ToString()) < min)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
         public bool Compared(TextBox t1, TextBox t2)

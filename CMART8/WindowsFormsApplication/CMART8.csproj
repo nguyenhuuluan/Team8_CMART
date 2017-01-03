@@ -1,0 +1,613 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B8AE23C4-62FC-4860-A4C0-B31D0EDE31FD}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CMART8</RootNamespace>
+    <AssemblyName>CMART8</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CTHOADON.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CTPHIEUDEXUAT.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CTPHIEUNHAPHANGCHINHANH.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CTPHIEUNHAPHANGTRUSO.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Dexuat\BUS_DX.cs" />
+    <Compile Include="Dexuat\DX_RP.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DX_RP.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Dexuat\GUI_CTDX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dexuat\GUI_CTDX.Designer.cs">
+      <DependentUpon>GUI_CTDX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dexuat\GUI_DX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dexuat\GUI_DX.Designer.cs">
+      <DependentUpon>GUI_DX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dexuat\RP_DX.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dexuat\RP_DX.Designer.cs">
+      <DependentUpon>RP_DX.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI_Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI_Login.Designer.cs">
+      <DependentUpon>GUI_Login.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HOADON.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KHUYENMAI.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LICHSUGIA.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LOAISANPHAM.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="NHACUNGCAP.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PHIEUDEXUAT.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PHIEUNHAPHANGCHINHANH.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PHIEUNHAPHANGTRUSO.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QLDM\BUS\BUS_LichSuGia.cs" />
+    <Compile Include="QLDM\BUS\BUS_LoaiSanPham.cs" />
+    <Compile Include="QLDM\BUS\BUS_NhaCungCap.cs" />
+    <Compile Include="QLDM\BUS\BUS_SanPham.cs" />
+    <Compile Include="QLDM\BUS\BUS_TTKM.cs" />
+    <Compile Include="QLDM\GUI\GUI_LichSuGia.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLDM\GUI\GUI_LichSuGia.Designer.cs">
+      <DependentUpon>GUI_LichSuGia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLDM\GUI\GUI_LoaiSanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLDM\GUI\GUI_LoaiSanPham.Designer.cs">
+      <DependentUpon>GUI_LoaiSanPham.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLDM\GUI\GUI_NhaCungCap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLDM\GUI\GUI_NhaCungCap.Designer.cs">
+      <DependentUpon>GUI_NhaCungCap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLDM\GUI\GUI_TTKM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLDM\GUI\GUI_TTKM.Designer.cs">
+      <DependentUpon>GUI_TTKM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLDM\GUI\GUI_SanPham.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLDM\GUI\GUI_SanPham.Designer.cs">
+      <DependentUpon>GUI_SanPham.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLHD\BUS_QLHD.cs" />
+    <Compile Include="QLHD\CTHD_RP.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CTHD_RP.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="QLHD\GUI_CTHD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLHD\GUI_CTHD.Designer.cs">
+      <DependentUpon>GUI_CTHD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLHD\GUI_POS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLHD\GUI_POS.Designer.cs">
+      <DependentUpon>GUI_POS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLHD\GUI_QLHD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLHD\GUI_QLHD.Designer.cs">
+      <DependentUpon>GUI_QLHD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLHD\RP_CTHD.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RP_CTHD.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="QLHD\RP_HD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLHD\RP_HD.Designer.cs">
+      <DependentUpon>RP_HD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLNH\BUS_NHCN.cs" />
+    <Compile Include="QLNH\BUS_NHCN_Update.cs" />
+    <Compile Include="QLNH\BUS_NHTS.cs" />
+    <Compile Include="QLNH\BUS_NHTS_Update.cs" />
+    <Compile Include="QLNH\GUI_CTCN_Update.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLNH\GUI_CTCN_Update.Designer.cs">
+      <DependentUpon>GUI_CTCN_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLNH\GUI_CTTS_Update.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLNH\GUI_CTTS_Update.Designer.cs">
+      <DependentUpon>GUI_CTTS_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLNH\GUI_CTCN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLNH\GUI_CTCN.Designer.cs">
+      <DependentUpon>GUI_CTCN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLNH\GUI_CTTS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLNH\GUI_CTTS.Designer.cs">
+      <DependentUpon>GUI_CTTS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLNH\GUI_NHCN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLNH\GUI_NHCN.Designer.cs">
+      <DependentUpon>GUI_NHCN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLNH\GUI_NHTS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLNH\GUI_NHTS.Designer.cs">
+      <DependentUpon>GUI_NHTS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLNH\NHCN_RP.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NHCN_RP.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="QLNH\NHTS_RP.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NHTS_RP.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="QLNH\RP_NHCN.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLNH\RP_NHCN.Designer.cs">
+      <DependentUpon>RP_NHCN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLNH\RP_NHTS.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLNH\RP_NHTS.Designer.cs">
+      <DependentUpon>RP_NHTS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLTK\BUS\BUS_QLTK.cs" />
+    <Compile Include="QLTK\GUI\GUI_DoiMK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLTK\GUI\GUI_DoiMK.Designer.cs">
+      <DependentUpon>GUI_DoiMK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="QLTK\GUI\GUI_QLTK.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="QLTK\GUI\GUI_QLTK.Designer.cs">
+      <DependentUpon>GUI_QLTK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SANPHAM.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_CHITIETHOADON_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_CHITIETPHIEUDEXUAT_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_CHITIETPHIEUNHAPCHINHANH_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_CHITIETPHIEUNHAPTRUSO_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_THONGKEDOANHTHU_NAM_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_THONGKEDOANHTHU_NGAY_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_THONGKEDOANHTHU_TG_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_THONGKEDOANHTHU_THANG_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TAIKHOAN.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ThongKe\BUS_ThongKe.cs" />
+    <Compile Include="ThongKe\GUI_Report.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThongKe\GUI_Report.Designer.cs">
+      <DependentUpon>GUI_Report.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThongKe\GUI_Thongke.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ThongKe\GUI_Thongke.Designer.cs">
+      <DependentUpon>GUI_Thongke.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ThongKe\RP_TKNam.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RP_TKNam.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ThongKe\RP_TKNgay.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RP_TKNgay.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ThongKe\RP_TKTG.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RP_TKTG.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ThongKe\RP_TKThang.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RP_TKThang.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ValidationExtension.cs" />
+    <EmbeddedResource Include="Dexuat\DX_RP.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>DX_RP.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dexuat\GUI_CTDX.resx">
+      <DependentUpon>GUI_CTDX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dexuat\GUI_DX.resx">
+      <DependentUpon>GUI_DX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dexuat\RP_DX.resx">
+      <DependentUpon>RP_DX.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI_Login.resx">
+      <DependentUpon>GUI_Login.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLDM\GUI\GUI_LichSuGia.resx">
+      <DependentUpon>GUI_LichSuGia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLDM\GUI\GUI_LoaiSanPham.resx">
+      <DependentUpon>GUI_LoaiSanPham.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLDM\GUI\GUI_NhaCungCap.resx">
+      <DependentUpon>GUI_NhaCungCap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLDM\GUI\GUI_TTKM.resx">
+      <DependentUpon>GUI_TTKM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="QLDM\GUI\GUI_SanPham.resx">
+      <DependentUpon>GUI_SanPham.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLHD\CTHD_RP.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CTHD_RP.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLHD\GUI_CTHD.resx">
+      <DependentUpon>GUI_CTHD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLHD\GUI_POS.resx">
+      <DependentUpon>GUI_POS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLHD\GUI_QLHD.resx">
+      <DependentUpon>GUI_QLHD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLHD\RP_CTHD.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RP_CTHD.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLHD\RP_HD.resx">
+      <DependentUpon>RP_HD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\GUI_CTCN_Update.resx">
+      <DependentUpon>GUI_CTCN_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\GUI_CTTS_Update.resx">
+      <DependentUpon>GUI_CTTS_Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\GUI_CTCN.resx">
+      <DependentUpon>GUI_CTCN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\GUI_CTTS.resx">
+      <DependentUpon>GUI_CTTS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\GUI_NHCN.resx">
+      <DependentUpon>GUI_NHCN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\GUI_NHTS.resx">
+      <DependentUpon>GUI_NHTS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\NHCN_RP.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NHCN_RP.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\NHTS_RP.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NHTS_RP.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\RP_NHCN.resx">
+      <DependentUpon>RP_NHCN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLNH\RP_NHTS.resx">
+      <DependentUpon>RP_NHTS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLTK\GUI\GUI_DoiMK.resx">
+      <DependentUpon>GUI_DoiMK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="QLTK\GUI\GUI_QLTK.resx">
+      <DependentUpon>GUI_QLTK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThongKe\GUI_Report.resx">
+      <DependentUpon>GUI_Report.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThongKe\GUI_Thongke.resx">
+      <DependentUpon>GUI_Thongke.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThongKe\RP_TKNam.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RP_TKNam.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThongKe\RP_TKNgay.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RP_TKNgay.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThongKe\RP_TKTG.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RP_TKTG.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ThongKe\RP_TKThang.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>RP_TKThang.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <EntityDeploy Include="Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Model.edmx.diagram">
+      <DependentUpon>Model.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\CMART8Entities.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edit2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\find2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Logout.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\int.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Chitiet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\plus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete-record-md.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="logo.ico" />
+    <Content Include="Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

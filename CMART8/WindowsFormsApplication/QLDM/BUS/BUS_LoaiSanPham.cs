@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     class BUS_LoaiSanPham
     {
@@ -30,7 +30,7 @@ namespace WindowsFormsApplication
                     LSP.MALOAI = DateTime.Now.ToString();
                     LSP.TENLOAI = ten;
                     LSP.SOLUONGSP = 0;
-                    db.LOAISANPHAMs.AddObject(LSP);
+                    db.LOAISANPHAMs.Add(LSP);
                     db.SaveChanges();
                     return true;
                 }
@@ -57,11 +57,18 @@ namespace WindowsFormsApplication
             }
             public bool deleteLSP(String id)
             {
-                db = new CMART8Entities();
-                LOAISANPHAM LSP = db.LOAISANPHAMs.Single(st => st.MALOAI.Contains(id));
-                db.LOAISANPHAMs.DeleteObject(LSP);
-                db.SaveChanges();
-                return true;
+                try
+                {
+                    db = new CMART8Entities();
+                    LOAISANPHAM LSP = db.LOAISANPHAMs.Single(st => st.MALOAI.Contains(id));
+                    db.LOAISANPHAMs.Remove(LSP);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
             public bool checkExist(string sTmp)
             {

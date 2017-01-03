@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 //using System.Globalization;
-namespace WindowsFormsApplication
+namespace CMART8
 {
     public partial class GUI_TTKM : Form
     {
@@ -16,13 +16,16 @@ namespace WindowsFormsApplication
         CMART8Entities db;
         ValidationExtension vl;
         int flag = 0;
-        public GUI_TTKM()
+        TAIKHOAN TK;
+        public GUI_TTKM(TAIKHOAN tmp)
         {
+            TK = tmp;
             ctl = new BUS_TTKM();
             ctlSP = new BUS_SanPham();
             db = new CMART8Entities();
             vl = new ValidationExtension();
             InitializeComponent();
+            controlFunction(TK.QUYEN);
             controlFunction("enableAll");
             btnAdd.Click += btnAdd_Click;
             btnEdit.Click += btnEdit_Click;
@@ -50,13 +53,13 @@ namespace WindowsFormsApplication
                     {
                         if (ctl.deleteTTKM(id))
                         {
-                            MessageBox.Show("Xóa Sản phẩm thành công!");
+                            MessageBox.Show("Xóa thông tin khuyến mãi thành công!");
                             GUI_TTKM_Load(null, null);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Sản phẩm cần xóa không tồn tại trong hệ thống!");
+                        MessageBox.Show("Thông tin khuyến mãi cần xóa không tồn tại trong hệ thống!");
                     }
                 }
             }
@@ -100,6 +103,11 @@ namespace WindowsFormsApplication
                     sTmp = sTmp + "Vui lòng nhập hình ảnh Sản phẩm khuyến mãi!\n";
                     flg = false;
                 }
+                if(!vl.Range(txtGiaKM, 0, double.Parse(txtGiaBan.Text)))
+                {
+                    sTmp = sTmp + "Vui lòng nhập giá khuyến mãi lại cho đúng!\n";
+                    flg = false;
+                }
                 if (!vl.Required(txtNoiDung.Text))
                 {
                     sTmp = sTmp + "Vui lòng nhập nội dung Sản phẩm khuyến mãi!\n";
@@ -108,6 +116,11 @@ namespace WindowsFormsApplication
                 if (!vl.checkNumber(txtGiaKM.Text))
                 {
                     sTmp = sTmp + "Vui lòng nhập đúng kiểu Giá cho sản phẩm khuyến mãi!\n";
+                    flg = false;
+                }
+                if(!vl.dateTime(txtNgayBD.Value, txtNgayKT.Value))
+                {
+                    sTmp = sTmp + "Vui lòng nhập ngày kết thúc sau ngày bắt đầu!\n";
                     flg = false;
                 }
                 if (flg)
@@ -224,6 +237,7 @@ namespace WindowsFormsApplication
             txtNgayKT.Text = "";
 
         }
+
         private void controlFunction(string sTmp)
         {
                 if (sTmp.Equals("enableAll"))
@@ -264,6 +278,12 @@ namespace WindowsFormsApplication
                     txtNgayKT.Enabled = true;
                     txtNoiDung.Enabled = true;
                 }
+                if (sTmp.Equals("Giám đốc"))
+                {
+                    lblQuyen.Text = TK.QUYEN;
+                    formQLHD.Visible = false;
+                    formQLNH.Visible = false;
+                }
         }
 
         private void txtSearch_Enter(object sender, EventArgs e)
@@ -292,6 +312,8 @@ namespace WindowsFormsApplication
             cboSP.DataSource = ctlSP.loadListSP();
             cboSP.DisplayMember = "TENSP";
             cboSP.ValueMember = "MASP";
+            cboSP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cboSP.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
 
         private void cboSP_SelectedValueChanged(object sender, EventArgs e)
@@ -299,7 +321,7 @@ namespace WindowsFormsApplication
             try
             {
                 SANPHAM sp = (SANPHAM)cboSP.SelectedItem;
-                LICHSUGIA lsg = db.LICHSUGIAs.Single(st => st.MASP.Equals(sp.MASP));
+                LICHSUGIA lsg = db.LICHSUGIAs.Where(st => st.MASP.Equals(sp.MASP)).OrderBy(st=>st.NGAYHIEULUC).ToList().Last();
                 txtGiaBan.Text = lsg.GIABAN.ToString();
             }
             catch (Exception)
@@ -309,6 +331,69 @@ namespace WindowsFormsApplication
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             btnSearch_Click(null, null);
+        }
+
+        private void quảnLýSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_SanPham sp = new GUI_SanPham(TK);
+            this.Hide();
+            sp.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýLoạiSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_LoaiSanPham lsp = new GUI_LoaiSanPham(TK);
+            this.Hide();
+            lsp.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýNhàToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_NhaCungCap ncc = new GUI_NhaCungCap(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void formThongke_Click(object sender, EventArgs e)
+        {
+            GUI_Thongke tk = new GUI_Thongke(TK);
+            this.Hide();
+            tk.ShowDialog();
+            this.Close();
+        }
+        private void formDoiMK_Click(object sender, EventArgs e)
+        {
+            QLTK.GUI.GUI_DoiMK ncc = new QLTK.GUI.GUI_DoiMK(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void formQLTK_Click(object sender, EventArgs e)
+        {
+            GUI_QLTK qltk = new GUI_QLTK(TK);
+            this.Hide();
+            qltk.ShowDialog();
+            this.Close();
+        }
+
+        private void formLSG_Click(object sender, EventArgs e)
+        {
+            GUI_LichSuGia lsg = new GUI_LichSuGia(TK);
+            this.Hide();
+            lsg.ShowDialog();
+            this.Close();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            GUI_Login lg = new GUI_Login();
+            this.Hide();
+            lg.ShowDialog();
+            this.Close();
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     public partial class GUI_SanPham : Form
     {
@@ -16,15 +16,18 @@ namespace WindowsFormsApplication
         BUS_LoaiSanPham ctlLSP;
         CMART8Entities db;
         ValidationExtension vl;
+        TAIKHOAN TK;
         int flag = 0;
-        public GUI_SanPham()
+        public GUI_SanPham(TAIKHOAN tmp)
         {
+            TK = tmp;
             ctlNCC = new BUS_NhaCungCap();
             ctl = new BUS_SanPham();
             ctlLSP = new BUS_LoaiSanPham();
             db = new CMART8Entities();
             vl = new ValidationExtension();
             InitializeComponent();
+            controlFunction(TK.QUYEN);
             controlFunction("enableAll");
             btnAdd.Click += btnAdd_Click;
             btnEdit.Click += btnEdit_Click;
@@ -63,10 +66,14 @@ namespace WindowsFormsApplication
                             MessageBox.Show("Xóa Sản phẩm thành công!");
                             GUI_SanPham_Load(null, null);
                         }
+                        else
+                        {
+                            MessageBox.Show("Sản phẩm này hiện đang được bán trong hệ thống!");
+                        }
                     }
                     else
                     {
-                        MessageBox.Show("Sản phẩm cần xóa không tồn tại trong hệ thống!");
+                        MessageBox.Show("Sản phẩm này không tồn tại trong hệ thống!");
                     }
                 }
             }
@@ -134,16 +141,17 @@ namespace WindowsFormsApplication
                         }
                     }
                     catch (Exception)
-                    { MessageBox.Show("Chọn lại đúng Sản phẩm hoặc loại sản phẩm!"); }
+                    { MessageBox.Show("Chọn lại đúng loại sản phẩm hoặc nhà cung cấp!"); }
                 }
-                else {
+                else
+                {
                     MessageBox.Show(sTmp);
                 }
             }
             //Edit SANPHAM
             if (flag == 2)
             {
-                 string sTmp = "";
+                string sTmp = "";
                 bool flg = true;
                 if (!vl.Required(txtTenSP.Text))
                 {
@@ -192,7 +200,8 @@ namespace WindowsFormsApplication
                         MessageBox.Show("Nhập lại đúng Nhà cung cấp/Loại sản phẩm");
                     }
                 }
-                else {
+                else
+                {
                     MessageBox.Show(sTmp);
                 }
             }
@@ -273,7 +282,7 @@ namespace WindowsFormsApplication
                 cboLSP.Text = "";
                 cbNCC.Text = "";
             }
-            if (sTmp.Equals("enableAdd")||sTmp.Equals("enableEdit"))
+            if (sTmp.Equals("enableAdd") || sTmp.Equals("enableEdit"))
             {
                 btnAdd.Enabled = false;
                 btnEdit.Enabled = false;
@@ -284,8 +293,18 @@ namespace WindowsFormsApplication
                 txtTenSP.Enabled = true;
                 cboLSP.Enabled = true;
                 cbNCC.Enabled = true;
-                lstSP.Enabled = false;
-                
+                if (sTmp.Equals("enableEdit"))
+                {
+                    lstSP.Enabled = false;
+                }
+
+            }
+            if (sTmp.Equals("Giám đốc"))
+            {
+                lblQuyen.Text = TK.QUYEN;
+                formQLHD.Visible = false;
+                formQLNH.Visible = false;
+
             }
         }
 
@@ -299,12 +318,82 @@ namespace WindowsFormsApplication
             lstSP.Columns[9].Visible = false;
             lstSP.Columns[10].Visible = false;
             lstSP.Columns[11].Visible = false;
+            lstSP.Columns[12].Visible = false;
             cbNCC.DataSource = ctlNCC.loadListNCC();
             cbNCC.DisplayMember = "TENNCC";
             cbNCC.ValueMember = "MANCC";
+            cbNCC.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbNCC.AutoCompleteSource = AutoCompleteSource.ListItems;
             cboLSP.DataSource = ctlLSP.loadListLSP();
             cboLSP.DisplayMember = "TENLOAI";
             cboLSP.ValueMember = "MALOAI";
+            cboLSP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cboLSP.AutoCompleteSource = AutoCompleteSource.ListItems;
+        }
+
+
+        private void quảnLýLoạiSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_LoaiSanPham lsp = new GUI_LoaiSanPham(TK);
+            this.Hide();
+            lsp.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýNhàToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_NhaCungCap ncc = new GUI_NhaCungCap(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void thôngTinKhuyếnMãiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_TTKM ttkm = new GUI_TTKM(TK);
+            this.Hide();
+            ttkm.ShowDialog();
+            this.Close();
+        }
+
+        private void formThongke_Click(object sender, EventArgs e)
+        {
+            GUI_Thongke tk = new GUI_Thongke(TK);
+            this.Hide();
+            tk.ShowDialog();
+            this.Close();
+        }
+
+        private void formDoiMK_Click(object sender, EventArgs e)
+        {
+            QLTK.GUI.GUI_DoiMK ncc = new QLTK.GUI.GUI_DoiMK(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void formQLTK_Click(object sender, EventArgs e)
+        {
+            GUI_QLTK qltk = new GUI_QLTK(TK);
+            this.Hide();
+            qltk.ShowDialog();
+            this.Close();
+        }
+
+        private void formLSG_Click(object sender, EventArgs e)
+        {
+            GUI_LichSuGia lsg = new GUI_LichSuGia(TK);
+            this.Hide();
+            lsg.ShowDialog();
+            this.Close();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            GUI_Login lg = new GUI_Login();
+            this.Hide();
+            lg.ShowDialog();
+            this.Close();
         }
 
     }

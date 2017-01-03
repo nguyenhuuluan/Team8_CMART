@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     class BUS_TTKM
     {
@@ -35,7 +35,7 @@ namespace WindowsFormsApplication
                 TTKM.THOIGIANBD = tgbd;
                 TTKM.THOIGIANKT = tgkt;
                 TTKM.NOIDUNG = noidung;
-                db.KHUYENMAIs.AddObject(TTKM);
+                db.KHUYENMAIs.Add(TTKM);
                 db.SaveChanges();
                 return true;
             }
@@ -71,7 +71,7 @@ namespace WindowsFormsApplication
         {
             db = new CMART8Entities();
             KHUYENMAI TTKM = db.KHUYENMAIs.Single(st => st.MAKM.Contains(id));
-            db.KHUYENMAIs.DeleteObject(TTKM);
+            db.KHUYENMAIs.Remove(TTKM);
             db.SaveChanges();
             return true;
         }

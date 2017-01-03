@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     class BUS_LichSuGia
     {
@@ -11,7 +11,7 @@ namespace WindowsFormsApplication
         public List<LICHSUGIA> loadListSP()
         {
             db = new CMART8Entities();
-            return db.LICHSUGIAs.ToList();
+            return db.LICHSUGIAs.ToList().OrderBy(st=>st.NGAYHIEULUC).ToList();
         }
 
         public List<LICHSUGIA> searchListLSG(string sTmp)
@@ -28,7 +28,7 @@ namespace WindowsFormsApplication
                 LSG.MASP = ID;
                 LSG.GIABAN = int.Parse(gia);
                 LSG.NGAYHIEULUC = ngayhl;       
-                db.LICHSUGIAs.AddObject(LSG);
+                db.LICHSUGIAs.Add(LSG);
                 db.SaveChanges();
                 return true;
             }
@@ -44,9 +44,14 @@ namespace WindowsFormsApplication
             try
             {
                 LICHSUGIA LSG = db.LICHSUGIAs.ToList().Single(st => st.MASP.Equals(ID) && st.GIABAN.ToString().Equals(gia) && st.NGAYHIEULUC.ToString().Equals(ngayhl));
-                LSG.GIABAN = int.Parse(gia2);
-                LSG.NGAYHIEULUC = ngayhl2;
-                LSG.MASP = ID2;
+                LICHSUGIA tmp = LSG;
+                db.LICHSUGIAs.Remove(LSG);
+                db.SaveChanges();
+                db = new CMART8Entities();
+                tmp.GIABAN = int.Parse(gia2);
+                tmp.NGAYHIEULUC = ngayhl2;
+                tmp.MASP = ID2;
+                db.LICHSUGIAs.Add(tmp);
                 db.SaveChanges();
                 return true;
             }
@@ -59,7 +64,7 @@ namespace WindowsFormsApplication
         {
             db = new CMART8Entities();
             LICHSUGIA LSG = db.LICHSUGIAs.ToList().Single(st => st.MASP.Equals(ID) && st.GIABAN.ToString().Equals(gia) && st.NGAYHIEULUC.ToString().Equals(ngayhl));
-            db.LICHSUGIAs.DeleteObject(LSG);
+            db.LICHSUGIAs.Remove(LSG);
             db.SaveChanges();
             return true;
         }

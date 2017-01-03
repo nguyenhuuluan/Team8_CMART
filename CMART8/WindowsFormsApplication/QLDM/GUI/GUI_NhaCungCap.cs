@@ -8,18 +8,21 @@ using System.Text;
 using System.Windows.Forms;
 
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     public partial class GUI_NhaCungCap : Form
     {
         BUS_NhaCungCap ctl;
         ValidationExtension vl;
+        TAIKHOAN TK;
         int flag = 0;
-        public GUI_NhaCungCap()
+        public GUI_NhaCungCap(TAIKHOAN tmp)
         {
+            TK = tmp;
             ctl = new BUS_NhaCungCap();
             vl = new ValidationExtension();
             InitializeComponent();
+            controlFunction(TK.QUYEN);
             controlFunction("enableAll");
             btnAdd.Click += btnAdd_Click;
             btnEdit.Click += btnEdit_Click;
@@ -48,8 +51,13 @@ namespace WindowsFormsApplication
                     if (ctl.checkExist(id) == false)
                     {
                         if (ctl.deleteNCC(id))
-                        { MessageBox.Show("Xóa Nhà cung cấp thành công!");
-                        GUI_NhaCungCap_Load(null, null);
+                        {
+                            MessageBox.Show("Xóa Nhà cung cấp thành công!");
+                            GUI_NhaCungCap_Load(null, null);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Hiện có sản phẩm thuộc nhà cung cấp này trong hệ thông!");   
                         }
                     }
                     else
@@ -214,6 +222,7 @@ namespace WindowsFormsApplication
                 GUI_NhaCungCap_Load(null, null);
             }
         }
+
         private void controlFunction(string sTmp)
         {
             if (sTmp.Equals("enableAll"))
@@ -243,7 +252,16 @@ namespace WindowsFormsApplication
                 txtTenNCC.Enabled = true;
                 txtDiaChi.Enabled = true;
                 txtSDT.Enabled = true;
-                lstNCC.Enabled = false;
+                if (sTmp.Equals("enableEdit"))
+                {
+                  lstNCC.Enabled = false;
+                }
+            }
+            if (sTmp.Equals("Giám đốc"))
+            {
+                lblQuyen.Text = TK.QUYEN;
+                formQLHD.Visible = false;
+                formQLNH.Visible = false;
             }
 
         }
@@ -260,6 +278,68 @@ namespace WindowsFormsApplication
             btnSearch_Click(null, null);
         }
 
+        private void quảnLýSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_SanPham sp = new GUI_SanPham(TK);
+            this.Hide();
+            sp.ShowDialog();
+            this.Close();
+        }
 
+        private void quảnLýLoạiSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_LoaiSanPham lsp = new GUI_LoaiSanPham(TK);
+            this.Hide();
+            lsp.ShowDialog();
+            this.Close();
+        }
+
+        private void thôngTinKhuyếnMãiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_TTKM ttkm = new GUI_TTKM(TK);
+            this.Hide();
+            ttkm.ShowDialog();
+            this.Close();
+        }
+
+        private void formThongke_Click(object sender, EventArgs e)
+        {
+            GUI_Thongke tk = new GUI_Thongke(TK);
+            this.Hide();
+            tk.ShowDialog();
+            this.Close();
+        }
+
+        private void formDoiMK_Click(object sender, EventArgs e)
+        {
+            QLTK.GUI.GUI_DoiMK ncc = new QLTK.GUI.GUI_DoiMK(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void formQLTK_Click(object sender, EventArgs e)
+        {
+            GUI_QLTK qltk = new GUI_QLTK(TK);
+            this.Hide();
+            qltk.ShowDialog();
+            this.Close();
+        }
+
+        private void formLSG_Click(object sender, EventArgs e)
+        {
+            GUI_LichSuGia lsg = new GUI_LichSuGia(TK);
+            this.Hide();
+            lsg.ShowDialog();
+            this.Close();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            GUI_Login lg = new GUI_Login();
+            this.Hide();
+            lg.ShowDialog();
+            this.Close();
+        }
     }
 }

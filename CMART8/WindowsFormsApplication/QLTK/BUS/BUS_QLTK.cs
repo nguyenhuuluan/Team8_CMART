@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     class BUS_QLTK
     {
@@ -34,7 +34,7 @@ namespace WindowsFormsApplication
                 TK.TENDANGNHAP = tendn;
                 TK.MATKHAU = matkhau;
                 TK.QUYEN = quyen;
-                db.TAIKHOANs.AddObject(TK);
+                db.TAIKHOANs.Add(TK);
                 db.SaveChanges();
                 return true;
             }
@@ -90,9 +90,20 @@ namespace WindowsFormsApplication
         {
             db = new CMART8Entities();
             TAIKHOAN TK = db.TAIKHOANs.ToList().Single(st => st.MATK.Equals(ID));
-            db.TAIKHOANs.DeleteObject(TK);
+            db.TAIKHOANs.Remove(TK);
             db.SaveChanges();
             return true;
+        }
+        public bool checkExit(string username)
+        {
+            db = new CMART8Entities();
+            List<TAIKHOAN> tmp = db.TAIKHOANs.Where(st => st.TENDANGNHAP.Equals(username)).ToList();
+            if (tmp.Count != 0)
+            {
+                return false;
+            }
+            return true;
+
         }
     }
 }

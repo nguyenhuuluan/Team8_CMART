@@ -7,18 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace WindowsFormsApplication
+namespace CMART8
 {
     public partial class GUI_QLTK : Form
     {
         int flag = 0;
         BUS_QLTK ctl;
         ValidationExtension vl;
-        public GUI_QLTK()
+        TAIKHOAN TK;
+        public GUI_QLTK(TAIKHOAN tmp)
         {
+            TK = tmp;
             ctl = new BUS_QLTK();
             vl = new ValidationExtension();
             InitializeComponent();
+            controlFunction(TK.QUYEN);
             btnSearch.Click += btnSearch_Click;
             btnAdd.Click += btnAdd_Click;
             btnEdit.Click += btnEdit_Click;
@@ -89,15 +92,22 @@ namespace WindowsFormsApplication
                 }
                 if (flg)
                 {
-                    if(ctl.addTK(txtTen.Text,txtDiaChi.Text,txtSDT.Text,txtCMND.Text,txtTDN.Text,txtMK.Text,cboQuyen.Text))
+                    if (ctl.checkExit(txtTDN.Text))
                     {
-                        MessageBox.Show("Thêm mới tài khoản thành công!");
-                        GUI_QLTK_Load(null, null);
-                        controlFunction("enableAll");
+
+                        if (ctl.addTK(txtTen.Text, txtDiaChi.Text, txtSDT.Text, txtCMND.Text, txtTDN.Text, txtMK.Text, cboQuyen.Text))
+                        {
+                            MessageBox.Show("Thêm mới tài khoản thành công!");
+                            GUI_QLTK_Load(null, null);
+                            controlFunction("enableAll");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Thêm mới sản phẩm không thành công!");
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("Thêm mới sản phẩm không thành công!");
+                    else {
+                        MessageBox.Show("Tên đăng nhập đã tồn tại!");
                     }
                 }
                 else {
@@ -106,7 +116,7 @@ namespace WindowsFormsApplication
                 }
             }
             //Edit
-            if (flag == 2)
+            else if (flag == 2)
             { 
                 string sTmp = "";
                 bool flg = true;
@@ -147,57 +157,75 @@ namespace WindowsFormsApplication
                 }
                 if (flg)
                 {
-                    if (editMK.Checked)
+                    if (ctl.checkExit(txtTDN.Text))
                     {
-                        string sTmp2 = "";
-                        bool flg2 = true;
-                        if (!vl.Required(txtMK.Text))
-                        {
-                            sTmp2 = sTmp2 + "Vui lòng nhập mật khẩu!\n";
-                            flg2 = false;
-                        }
-                        else if (!vl.PassWordType(txtMK))
-                        {
-                            sTmp2 = sTmp2 + "Mật khẩu phải từ 6-15 ký tự và không chứa kí tự đặc biệt!\n";
-                            flg2 = false;
-                        }
-                        if (flg2)
-                        {
-                            if (ctl.editTK(lstTK.SelectedRows[0].Cells[0].Value.ToString(), txtTen.Text, txtDiaChi.Text, txtSDT.Text, txtCMND.Text, txtTDN.Text, txtMK.Text, cboQuyen.Text))
-                            {
-                                MessageBox.Show("Cập nhập thông tin tài khoản thành công!");
-                                GUI_QLTK_Load(null, null);
-                                controlFunction("enableAll");
-                            }
-                            else
-                            {
-                                MessageBox.Show("Cập nhập thông tin tài khoản không thành công!");
-                            }
-                        }
-                        else {
-                            MessageBox.Show(sTmp2);
-                        }
+                        update();
                     }
+                    else if (txtTDN.Text.Equals(lstTK.SelectedRows[0].Cells[5].Value.ToString()))
+                    { 
+                        update();
+                    }
+
                     else
                     {
-                        if (ctl.editTK(lstTK.SelectedRows[0].Cells[0].Value.ToString(), txtTen.Text, txtDiaChi.Text, txtSDT.Text, txtCMND.Text, txtTDN.Text, cboQuyen.Text))
-                        {
-                            MessageBox.Show("Cập nhập thông tin tài khoản thành công!");
-                            GUI_QLTK_Load(null, null);
-                            controlFunction("enableAll");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Cập nhập thông tin tài khoản không thành công!");
-                        }
+                        MessageBox.Show("Tên đăng nhập đã tồn tại!");
                     }
                 }
-                else {
+                else
+                {
                     MessageBox.Show(sTmp);
                 }
             }
         }
 
+        void update()
+        {
+            if (editMK.Checked)
+            {
+                string sTmp2 = "";
+                bool flg2 = true;
+                if (!vl.Required(txtMK.Text))
+                {
+                    sTmp2 = sTmp2 + "Vui lòng nhập mật khẩu!\n";
+                    flg2 = false;
+                }
+                else if (!vl.PassWordType(txtMK))
+                {
+                    sTmp2 = sTmp2 + "Mật khẩu phải từ 6-15 ký tự và không chứa kí tự đặc biệt!\n";
+                    flg2 = false;
+                }
+                if (flg2)
+                {
+                    if (ctl.editTK(lstTK.SelectedRows[0].Cells[0].Value.ToString(), txtTen.Text, txtDiaChi.Text, txtSDT.Text, txtCMND.Text, txtTDN.Text, txtMK.Text, cboQuyen.Text))
+                    {
+                        MessageBox.Show("Cập nhập thông tin tài khoản thành công!");
+                        GUI_QLTK_Load(null, null);
+                        controlFunction("enableAll");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cập nhập thông tin tài khoản không thành công!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(sTmp2);
+                }
+            }
+            else
+            {
+                if (ctl.editTK(lstTK.SelectedRows[0].Cells[0].Value.ToString(), txtTen.Text, txtDiaChi.Text, txtSDT.Text, txtCMND.Text, txtTDN.Text, cboQuyen.Text))
+                {
+                    MessageBox.Show("Cập nhập thông tin tài khoản thành công!");
+                    GUI_QLTK_Load(null, null);
+                    controlFunction("enableAll");
+                }
+                else
+                {
+                    MessageBox.Show("Cập nhập thông tin tài khoản không thành công!");
+                }
+            }
+        }
         void lstTK_Click(object sender, EventArgs e)
         {
             txtTen.Text = lstTK.SelectedRows[0].Cells[1].Value.ToString();
@@ -343,6 +371,13 @@ namespace WindowsFormsApplication
                     txtMK.Enabled = true;
                 }
             }
+            if (sTmp.Equals("Giám đốc"))
+            {
+                lblQuyen.Text = TK.QUYEN;
+                formQLHD.Visible = false;
+                formQLNH.Visible = false;
+            }
+
         }
 
         private void editMK_CheckedChanged(object sender, EventArgs e)
@@ -354,6 +389,71 @@ namespace WindowsFormsApplication
             else {
                 txtMK.Enabled = false;
             }
+        }
+
+
+        private void formDoiMK_Click(object sender, EventArgs e)
+        {
+            QLTK.GUI.GUI_DoiMK ncc = new QLTK.GUI.GUI_DoiMK(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            GUI_Login lg = new GUI_Login();
+            this.Hide();
+            lg.ShowDialog();
+            this.Close();
+        }
+
+        private void formLSG_Click(object sender, EventArgs e)
+        {
+            GUI_LichSuGia lsg = new GUI_LichSuGia(TK);
+            this.Hide();
+            lsg.ShowDialog();
+            this.Close();
+        }
+
+        private void formThongke_Click(object sender, EventArgs e)
+        {
+            GUI_Thongke tk = new GUI_Thongke(TK);
+            this.Hide();
+            tk.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_SanPham sp = new GUI_SanPham(TK);
+            this.Hide();
+            sp.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýLoạiSảnPhẩmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_LoaiSanPham lsp = new GUI_LoaiSanPham(TK);
+            this.Hide();
+            lsp.ShowDialog();
+            this.Close();
+        }
+
+        private void quảnLýNhàToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_NhaCungCap ncc = new GUI_NhaCungCap(TK);
+            this.Hide();
+            ncc.ShowDialog();
+            this.Close();
+        }
+
+        private void thôngTinKhuyếnMãiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GUI_TTKM ttkm = new GUI_TTKM(TK);
+            this.Hide();
+            ttkm.ShowDialog();
+            this.Close();
         }
 
     }
